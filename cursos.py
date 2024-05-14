@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QVBoxLayout, QWidget)
 from src.resources import *
 from curso import *
+import json
 
 class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
     def setupUi(self, MainWindow):
@@ -89,7 +90,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "padding: 10px;\n"
 "border-radius: 5px;\n"
 "color: white;\n"
-"font-size: bold;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: rgb(60, 79, 255);\n"
@@ -112,7 +113,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "padding: 10px;\n"
 "border-radius: 5px;\n"
 "color: white;\n"
-"font-size: bold;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: rgb(60, 79, 255);\n"
@@ -135,7 +136,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "padding: 10px;\n"
 "border-radius: 5px;\n"
 "color: white;\n"
-"font-size: bold;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: rgb(60, 79, 255);\n"
@@ -157,7 +158,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "padding: 10px;\n"
 "border-radius: 5px;\n"
 "color: white;\n"
-"font-size: bold;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: rgb(60, 79, 255);\n"
@@ -184,7 +185,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "padding: 10px;\n"
 "border-radius: 5px;\n"
 "color: white;\n"
-"font-size: bold;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: rgb(60, 79, 255);\n"
@@ -356,17 +357,22 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 
     def cerrar(self):
         QMessageBox.information(self, 'Cierre de sesión', 'Se ha cerrado sesión. Vuelva a abrir la aplicación si quiere seguir usándola.')
+        self.close()
         
     def abrir_curso(self, curso):
         self.hide()
-        self.ventana_curso = VentanaCurso(curso)
-        self.ventana_curso.show()
+        data = {"curso": curso}
+
+        with open("config.json", "w", encoding='utf-8') as json_file:
+                json.dump(data, json_file)
+        
+        self.ventana_curso = VentanaCurso()
+        self.ventana_curso.showMaximized()
         self.ventana_curso.exec()
         self.show()
 
 class VentanaCurso(Ui_Dialog_curso, QDialog):
-        def __init__(self, curso):
+        def __init__(self):
                 super(VentanaCurso, self).__init__()
                 self.setupUi(self)
-                self.set_curso(curso)
-                self.setWindowTitle(f'Datos de alumnos de {curso}º')
+                
