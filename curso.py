@@ -20,13 +20,15 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QSpacerItem, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
 from src.resources import *
+from anadir import *
+import json
+
 
 class Ui_Dialog_curso(QDialog, object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(842, 616)
-        Dialog.showMaximized()
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -57,8 +59,12 @@ class Ui_Dialog_curso(QDialog, object):
         self.verticalLayout.addWidget(self.frame_superior)
 
         self.label = QLabel(Dialog)
+        self.label.setStyleSheet(u"QLabel{"
+"font-size: 30px;\n"
+"font-weight: bold;\n"
+"color: #2a5c94;\n"
+"}")
         self.label.setObjectName(u"label")
-        self.label.setStyleSheet('font-size: 40px bold; color: #2a5c94;')
 
         self.verticalLayout.addWidget(self.label)
 
@@ -66,21 +72,21 @@ class Ui_Dialog_curso(QDialog, object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(-1, 10, -1, 10)
         self.pushButton = QPushButton(Dialog)
+        self.pushButton.clicked.connect(self.close)
         self.pushButton.setObjectName(u"pushButton")
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
         self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.clicked.connect(self.close)
         self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.pushButton.setStyleSheet(u"QPushButton{\n"
 "background-color: #ffffff;\n"
 "color: #2a5c94;\n"
+"padding: 10px 20px;\n"
 "border: 2px solid #2a5c94;\n"
 "border-radius: 5px;\n"
 "font-size: 16px;\n"
-"padding: 10px 20px;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: #2a5c94;\n"
@@ -89,27 +95,31 @@ class Ui_Dialog_curso(QDialog, object):
 
         self.horizontalLayout_2.addWidget(self.pushButton)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(300, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.pushButton_2 = QPushButton(Dialog)
         self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.clicked.connect(self.abrir_anadir_alumno)
         sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
         self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.pushButton_2.setStyleSheet(u"QPushButton{\n"
 "background-color: #ffffff;\n"
 "color: #2a5c94;\n"
+"padding: 10px 20px;\n"
 "border: 2px solid #2a5c94;\n"
 "border-radius: 5px;\n"
 "font-size: 16px;\n"
-"padding: 10px 20px;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
+        icon1 = QIcon()
+        icon1.addFile(u":/iconosLaterales/anadir.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_2.setIcon(icon1)
 
         self.horizontalLayout_2.addWidget(self.pushButton_2)
 
@@ -121,15 +131,18 @@ class Ui_Dialog_curso(QDialog, object):
         self.pushButton_3.setStyleSheet(u"QPushButton{\n"
 "background-color: #ffffff;\n"
 "color: #2a5c94;\n"
+"padding: 10px 20px;\n"
 "border: 2px solid #2a5c94;\n"
 "border-radius: 5px;\n"
 "font-size: 16px;\n"
-"padding: 10px 20px;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
+        icon2 = QIcon()
+        icon2.addFile(u":/iconosLaterales/editar.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_3.setIcon(icon2)
 
         self.horizontalLayout_2.addWidget(self.pushButton_3)
 
@@ -141,15 +154,22 @@ class Ui_Dialog_curso(QDialog, object):
         self.pushButton_4.setStyleSheet(u"QPushButton{\n"
 "background-color: #ffffff;\n"
 "color: #2a5c94;\n"
+"padding: 10px 20px;\n"
 "border: 2px solid #2a5c94;\n"
 "border-radius: 5px;\n"
 "font-size: 16px;\n"
-"padding: 10px 20px;\n"
 "}\n"
 "QPushButton:hover{\n"
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
+        icon3 = QIcon()
+        icon3.addFile(u":/iconosLaterales/eliminar.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_4.setIcon(icon3)
+
+        # Establecer la política de tamaño de los botones para que no se expandan
+        for button in (self.pushButton, self.pushButton_2, self.pushButton_3, self.pushButton_4):
+            button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
         self.horizontalLayout_2.addWidget(self.pushButton_4)
 
@@ -175,12 +195,19 @@ class Ui_Dialog_curso(QDialog, object):
         self.tableWidget.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
-"")     
+"")
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
 
         self.verticalLayout.addWidget(self.tableWidget)
 
+
         self.verticalLayout_2.addLayout(self.verticalLayout)
+
+        with open('config.json', 'r')as json_file:
+            data = json.load(json_file)
+        
+        self.curso = str(data['curso']) 
+        
 
         self.retranslateUi(Dialog)
 
@@ -188,8 +215,9 @@ class Ui_Dialog_curso(QDialog, object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Datos de los alumnos", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", f"Datos de los alumnos de {self.curso}º", None))
         self.label_logo.setText("")
+        self.label.setText(f'Alumnos de {self.curso}º')
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.pushButton_3.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
@@ -205,6 +233,12 @@ class Ui_Dialog_curso(QDialog, object):
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
     # retranslateUi
+    
+    def abrir_anadir_alumno(self):
+        self.ventana_anadir_alumno = VentanaAnadirAlumno()
+        self.ventana_anadir_alumno.show()
 
-    def set_curso(self, curso):
-        self.label.setText(f'Alumnos de {curso}º')
+class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
+    def __init__(self):
+        super(VentanaAnadirAlumno, self).__init__()
+        self.setupUi(self)
