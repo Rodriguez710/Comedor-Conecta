@@ -33,6 +33,12 @@ class Ui_Dialog_curso(QDialog, object):
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
+        
+        with open('config.json', 'r')as json_file:
+            data = json.load(json_file)
+         
+        self.curso = data['curso'] 
+        
         self.verticalLayout_2 = QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
@@ -199,17 +205,17 @@ class Ui_Dialog_curso(QDialog, object):
 "}\n"
 "")
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
+        
+        self.actualiza_alumnos()
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+
 
         self.verticalLayout.addWidget(self.tableWidget)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
-
-        with open('config.json', 'r')as json_file:
-            data = json.load(json_file)
-        
-        self.curso = data['curso'] 
-        
 
         self.retranslateUi(Dialog)
 
@@ -243,6 +249,21 @@ class Ui_Dialog_curso(QDialog, object):
     def abrir_editar_alumno(self):
         self.ventana_editar_alumno = VentanaEditarAlumno()
         self.ventana_editar_alumno.show()
+        self.ventana_editar_alumno.exec_()
+        self.actualiza_alumnos()
+        
+    def actualiza_alumnos(self):
+        # Obtener datos de alumnos del curso actual
+        alumno_connector = AlumnoConnector()
+        alumnos_curso = alumno_connector.devuelvePorCurso(self.curso)
+        # Configurar el número de filas en la tabla
+        self.tableWidget.setRowCount(len(alumnos_curso))
+        # Llenar la tabla con los datos de los alumnos
+        for row, alumno in enumerate(alumnos_curso):
+            for col, data in enumerate(alumno):
+                item = QTableWidgetItem(str(data))
+                self.tableWidget.setItem(row, col, item)
+                item.setTextAlignment(Qt.AlignCenter)
 
 class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
     def __init__(self):
