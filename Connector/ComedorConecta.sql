@@ -12,33 +12,33 @@ telefono 	varchar(15)		null
 );
 
 create table cursos(
-curso		int				primary key not null
+curso		varchar(5)				primary key not null
 );
-insert into cursos values (1);
-insert into cursos values (2);
-insert into cursos values (3);
-insert into cursos values (4);
-insert into cursos values (5);
-insert into cursos values (6);
+insert into cursos values ('1º');
+insert into cursos values ('2º');
+insert into cursos values ('3º');
+insert into cursos values ('4º');
+insert into cursos values ('5º');
+insert into cursos values ('6º');
 
 create table clase(
 letra	char	not null primary key,
-curso 	int		not null,
+curso 	varchar(5)		not null,
 constraint fk_curso_clase foreign key (curso) references cursos (curso)
 	on delete cascade on update cascade
 );
-insert into clase (letra, curso) values ('A', 1);
-insert into clase (letra, curso) values ('B', 2);
-insert into clase (letra, curso) values ('C', 3);
-insert into clase (letra, curso) values ('D', 4);
-insert into clase (letra, curso) values ('E', 5);
-insert into clase (letra, curso) values ('F', 6);
+insert into clase (letra, curso) values ('A', '1º');
+insert into clase (letra, curso) values ('B', '2º');
+insert into clase (letra, curso) values ('C', '3º');
+insert into clase (letra, curso) values ('D', '4º');
+insert into clase (letra, curso) values ('E', '5º');
+insert into clase (letra, curso) values ('F', '6º');
 
 
 create table alumno(
 nre			int				primary key unique,
 nombre		varchar(200)	not null,
-curso		int				not null,
+curso		varchar(5)				not null,
 clase		char			not null,
 madre		varchar(200)	not null,
 constraint fk_clase foreign key (clase) references clase(letra)
