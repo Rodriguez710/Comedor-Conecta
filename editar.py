@@ -324,7 +324,7 @@ class Ui_Dialog_editar_alumno(QDialog, object):
                 self.lineEdit_nre.clear()
             else:
                 self.lineEdit_nombre.setText(alumno[0])
-                self.lineEdit_curso.setText(f'{str(alumno[1])}')
+                self.lineEdit_curso.setText(alumno[1])
                 self.lineEdit_clase.setText(alumno[2])
                 self.lineEdit_padres.setText(alumno[3])
         else:
