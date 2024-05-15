@@ -43,3 +43,13 @@ class AlumnoConnector():
         sql = "delete from alumno where nre = %s".format(nre)
         self.cursor.execute(sql, (nre))
         self.con.commit()
+    
+    def devuelvePorCurso(self, curso):
+        try:
+            sql = "SELECT nre, nombre, curso, clase, madre FROM alumno WHERE curso = %s"
+            self.cursor.execute(sql, (curso,))
+            alumnos = self.cursor.fetchall()
+            return alumnos
+        except Exception as e:
+            print(f"Error al obtener los alumnos del curso: {str(e)}")
+            return []
