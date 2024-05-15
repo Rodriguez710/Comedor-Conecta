@@ -12,7 +12,7 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
+    QFont, QFontDatabase, QGradient, QIcon, QDoubleValidator,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
@@ -30,6 +30,10 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
+        
+        double_validator = QDoubleValidator(self)
+        double_validator.setDecimals(2)
+        
         self.layoutWidget = QWidget(Dialog)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(10, 10, 561, 451))
@@ -80,6 +84,8 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
 
         self.lineEdit_nre = QLineEdit(self.layoutWidget)
         self.lineEdit_nre.setObjectName(u"lineEdit_nre")
+        self.lineEdit_nre.setMaxLength(7)
+        self.lineEdit_nre.setValidator(double_validator)
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -281,7 +287,7 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
         padre = self.lineEdit_padres.text()
         
         if curso != self.curso:
-            QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}º')
+            QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}')
         else: 
             try:
                 conector = AlumnoConnector()
