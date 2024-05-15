@@ -27,7 +27,7 @@ class AlumnoConnector():
     
     def devuelvePorNRE(self, nre):
         try:
-            sql = "SELECT nre, nombre, curso, clase, madre FROM alumno where nre = %s".format(nre)
+            sql = "SELECT nombre, curso, clase, madre FROM alumno where nre = %s".format(nre)
             self.cursor.execute(sql, (nre))
             alumno = self.cursor.fetchone()
             return alumno
