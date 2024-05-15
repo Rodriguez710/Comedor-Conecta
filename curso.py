@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QSpacerItem, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
 from src.resources import *
+from editar import *
 from anadir import *
 import json
 
@@ -125,6 +126,7 @@ class Ui_Dialog_curso(QDialog, object):
 
         self.pushButton_3 = QPushButton(Dialog)
         self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.clicked.connect(self.abrir_editar_alumno)
         sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
         self.pushButton_3.setSizePolicy(sizePolicy)
         self.pushButton_3.setCursor(QCursor(Qt.PointingHandCursor))
@@ -206,7 +208,7 @@ class Ui_Dialog_curso(QDialog, object):
         with open('config.json', 'r')as json_file:
             data = json.load(json_file)
         
-        self.curso = str(data['curso']) 
+        self.curso = data['curso'] 
         
 
         self.retranslateUi(Dialog)
@@ -215,9 +217,9 @@ class Ui_Dialog_curso(QDialog, object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", f"Datos de los alumnos de {self.curso}º", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", f"Datos de los alumnos de {self.curso}", None))
         self.label_logo.setText("")
-        self.label.setText(f'Alumnos de {self.curso}º')
+        self.label.setText(f'Alumnos de {self.curso}')
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.pushButton_3.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
@@ -237,8 +239,17 @@ class Ui_Dialog_curso(QDialog, object):
     def abrir_anadir_alumno(self):
         self.ventana_anadir_alumno = VentanaAnadirAlumno()
         self.ventana_anadir_alumno.show()
+    
+    def abrir_editar_alumno(self):
+        self.ventana_editar_alumno = VentanaEditarAlumno()
+        self.ventana_editar_alumno.show()
 
 class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
     def __init__(self):
         super(VentanaAnadirAlumno, self).__init__()
+        self.setupUi(self)
+
+class VentanaEditarAlumno(Ui_Dialog_editar_alumno, QDialog):
+    def __init__(self):
+        super(VentanaEditarAlumno, self).__init__()
         self.setupUi(self)
