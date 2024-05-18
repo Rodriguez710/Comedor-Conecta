@@ -48,9 +48,9 @@ constraint fk_clase foreign key (clase) references clase(letra)
 create table madre(
 id			int 			primary key auto_increment,
 nombre		varchar(200)	not null,
-nre_hijo 	int				not null,	
+nre_hijo 	int				not null,
+email		varchar(100) 	not null,
+direccion	varchar(200)	not null,	
 constraint fk_nre_hijo foreign key (nre_hijo) references alumno (nre)
 	on delete cascade on update cascade
 );
-
-select * from alumno;
