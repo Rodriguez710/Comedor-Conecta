@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
 from src.resources import *
 from editar import *
 from anadir import *
+from eliminaAlumnos import *
 import json
 
 
@@ -155,6 +156,7 @@ class Ui_Dialog_curso(QDialog, object):
         self.horizontalLayout_2.addWidget(self.pushButton_3)
 
         self.pushButton_4 = QPushButton(Dialog)
+        self.pushButton_4.clicked.connect(self.abrir_ventana_eliminarAlumnos)
         self.pushButton_4.setObjectName(u"pushButton_4")
         sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
         self.pushButton_4.setSizePolicy(sizePolicy)
@@ -200,10 +202,17 @@ class Ui_Dialog_curso(QDialog, object):
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
-"background-color: transparent;\n"
-"}\n"
-"")
+        self.tableWidget.setStyleSheet("""
+QTableView::item {
+    border: none;
+}
+QHeaderView::section {
+    border: 1px solid black;
+}
+QTableView::item:nth-child(6) {
+    border: none;
+}
+""")
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
         
         self.actualiza_alumnos()
@@ -245,11 +254,19 @@ class Ui_Dialog_curso(QDialog, object):
     def abrir_anadir_alumno(self):
         self.ventana_anadir_alumno = VentanaAnadirAlumno()
         self.ventana_anadir_alumno.show()
+        self.ventana_anadir_alumno.exec_()
+        self.actualiza_alumnos()
     
     def abrir_editar_alumno(self):
         self.ventana_editar_alumno = VentanaEditarAlumno()
         self.ventana_editar_alumno.show()
         self.ventana_editar_alumno.exec_()
+        self.actualiza_alumnos()
+
+    def abrir_ventana_eliminarAlumnos(self):
+        self.ventana_eliminar_alumnos = VentanaEliminarAlumnos()
+        self.ventana_eliminar_alumnos.show()
+        self.ventana_eliminar_alumnos.exec_()
         self.actualiza_alumnos()
         
     def actualiza_alumnos(self):
@@ -273,4 +290,9 @@ class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
 class VentanaEditarAlumno(Ui_Dialog_editar_alumno, QDialog):
     def __init__(self):
         super(VentanaEditarAlumno, self).__init__()
+        self.setupUi(self)
+        
+class VentanaEliminarAlumnos(Ui_Dialog_eliminaAlumnos, QDialog):
+    def __init__(self):
+        super(VentanaEliminarAlumnos, self).__init__()
         self.setupUi(self)
