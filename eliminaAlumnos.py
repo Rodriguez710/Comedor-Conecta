@@ -13,7 +13,7 @@ from Connector.AlumnoConnector import *
 import json 
 
 class Ui_Dialog_eliminaAlumnos(QDialog, object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog, origen):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(858, 416)
@@ -22,6 +22,8 @@ class Ui_Dialog_eliminaAlumnos(QDialog, object):
             data = json.load(json_file)
          
         self.curso = data['curso'] 
+        
+        self.origen = origen
         
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -177,31 +179,41 @@ QTableView::item:nth-child(6) {
     # retranslateUi
 
     def mostrar_alumnos(self):
-        # Obtener datos de alumnos del curso actual
-        alumno_connector = AlumnoConnector()
-        alumnos_curso = alumno_connector.devuelvePorCurso(self.curso)
-        # Configurar el número de filas en la tabla
-        self.tableWidget.setRowCount(len(alumnos_curso))
-        # Llenar la tabla con los datos de los alumnos
-        for row, alumno in enumerate(alumnos_curso):
-            for col, data in enumerate(alumno):
-                item = QTableWidgetItem(str(data))
-                self.tableWidget.setItem(row, col, item)
-                item.setTextAlignment(Qt.AlignCenter)
+        conector = AlumnoConnector()
+        if self.origen == 'curso':
+            # Obtener datos de alumnos del curso actual
+            alumnos_curso = conector.devuelvePorCurso(self.curso)
+            # Configurar el número de filas en la tabla
+            self.tableWidget.setRowCount(len(alumnos_curso))
+            # Llenar la tabla con los datos de los alumnos
+            for row, alumno in enumerate(alumnos_curso):
+                for col, data in enumerate(alumno):
+                    item = QTableWidgetItem(str(data))
+                    self.tableWidget.setItem(row, col, item)
+                    item.setTextAlignment(Qt.AlignCenter)
+        elif self.origen == 'listado':
+            alumnos = conector.devuelveTodos()
+            # Configurar el número de filas en la tabla
+            self.tableWidget.setRowCount(len(alumnos))
+            # Llenar la tabla con los datos de los alumnos
+            for row, alumno in enumerate(alumnos):
+                for col, data in enumerate(alumno):
+                    item = QTableWidgetItem(str(data))
+                    self.tableWidget.setItem(row, col, item)
+                    item.setTextAlignment(Qt.AlignCenter)
 
     def eliminarAlumnos(self):
         try:
             nres = self.obtener_alumnos_seleccionados()
             conector = AlumnoConnector()
             conector.eliminar_alumnos_seleccionados(nres)
-            QMessageBox.information(self, 'Éxito', 'Los alumnos han sido eliminados correctamente.')
             
             # Eliminar filas de la tabla correspondientes a los alumnos eliminados
             for row in range(self.tableWidget.rowCount()):
                 nre_actual = self.tableWidget.item(row, 1).text()  # NRE en la columna 1
                 if nre_actual in nres:
                     self.tableWidget.removeRow(row)
-            
+            QMessageBox.information(self, 'Éxito', 'Los alumnos han sido eliminados correctamente.')
             self.close()
         except Exception as e:
             QMessageBox.critical(self, 'Error', f'Error al eliminar los alumnos: {str(e)}')
