@@ -23,7 +23,7 @@ from Connector.AlumnoConnector import *
 import json
 
 class Ui_Dialog_editar_alumno(QDialog, object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog, origen):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(572, 480)
@@ -33,6 +33,13 @@ class Ui_Dialog_editar_alumno(QDialog, object):
         
         double_validator = QDoubleValidator(self)
         double_validator.setDecimals(2)
+        
+        with open('config.json', 'r', encoding='utf-8')as json_file:
+            data = json.load(json_file)
+        
+        self.curso = data['curso'] 
+        
+        self.origen = origen
         
         self.verticalLayout_3 = QVBoxLayout(Dialog)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -259,11 +266,6 @@ class Ui_Dialog_editar_alumno(QDialog, object):
 
         self.verticalLayout_3.addLayout(self.verticalLayout)
 
-        with open('config.json', 'r', encoding='utf-8')as json_file:
-            data = json.load(json_file)
-        
-        self.curso = data['curso'] 
-
         self.retranslateUi(Dialog)
 
         QMetaObject.connectSlotsByName(Dialog)
@@ -286,62 +288,110 @@ class Ui_Dialog_editar_alumno(QDialog, object):
     # retranslateUi
 
     def editar_alumno(self):
-        try:
-            nre = self.lineEdit_nre.text()
-            nombre = self.lineEdit_nombre.text()
-            curso = self.lineEdit_curso.text()
-            clase = self.lineEdit_clase.text()
-            madre = self.lineEdit_padres.text()
-            
-            conector = AlumnoConnector()
-            conector.actualizarAlumno(nre, nombre, curso, clase, madre)
-            QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
-            self.close()
-        except Exception as e:
-            QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")
-    
+        nre = self.lineEdit_nre.text()
+        nombre = self.lineEdit_nombre.text()
+        curso = self.lineEdit_curso.text()
+        clase = self.lineEdit_clase.text()
+        madre = self.lineEdit_padres.text()
+        conector = AlumnoConnector()
+        
+        if self.origen == 'curso':
+            try:
+                if curso == self.curso:
+                    conector.actualizarAlumno(nre, nombre, curso, clase, madre)
+                    QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
+                    self.close()
+                else:
+                    QMessageBox.critical(self, 'Error', 'No se ha podido editar al alumno. Curso introducido incorrecto.')
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")
+        elif self.origen == 'listado':
+            try:
+                conector.actualizarAlumno(nre, nombre, curso, clase, madre)
+                QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
+                self.close()
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")    
+                
     def habilitar_campos(self):
         nre = self.lineEdit_nre.text()
+        conector = AlumnoConnector()
+        alumno = conector.devuelvePorNRE(nre)
         
-        if nre and len(nre) == 7:
-            self.lineEdit_nombre.setEnabled(True)
-            self.lineEdit_nombre.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_curso.setEnabled(True)
-            self.lineEdit_curso.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_clase.setEnabled(True)
-            self.lineEdit_clase.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_padres.setEnabled(True)
-            self.lineEdit_padres.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            conector = AlumnoConnector()
-            alumno = conector.devuelvePorNRE(nre)
-            
-            if alumno[1] != self.curso:
-                QMessageBox.critical(self, 'Error', 'No se ha podido encontrar al alumno ya que no pertenece a este curso')
-                self.lineEdit_nre.clear()
+        if self.origen == 'curso':
+            if nre and len(nre) == 7:
+                self.lineEdit_nombre.setEnabled(True)
+                self.lineEdit_nombre.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_curso.setEnabled(True)
+                self.lineEdit_curso.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_clase.setEnabled(True)
+                self.lineEdit_clase.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_padres.setEnabled(True)
+                self.lineEdit_padres.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                if alumno[1] != self.curso:
+                    QMessageBox.critical(self, 'Error', 'No se ha podido encontrar al alumno ya que no pertenece a este curso')
+                    self.lineEdit_nre.clear()
+                else:
+                    self.lineEdit_nombre.setText(alumno[0])
+                    self.lineEdit_curso.setText(alumno[1])
+                    self.lineEdit_clase.setText(alumno[2])
+                    self.lineEdit_padres.setText(alumno[3])
             else:
-                self.lineEdit_nombre.setText(alumno[0])
-                self.lineEdit_curso.setText(alumno[1])
-                self.lineEdit_clase.setText(alumno[2])
-                self.lineEdit_padres.setText(alumno[3])
-        else:
-            self.lineEdit_nombre.setEnabled(False)
-            self.lineEdit_nombre.clear()
-            self.lineEdit_nombre.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_curso.setEnabled(False)
-            self.lineEdit_curso.clear()
-            self.lineEdit_curso.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_clase.setEnabled(False)
-            self.lineEdit_clase.clear()
-            self.lineEdit_clase.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
-            
-            self.lineEdit_padres.setEnabled(False)
-            self.lineEdit_padres.clear()
-            self.lineEdit_padres.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                self.lineEdit_nombre.setEnabled(False)
+                self.lineEdit_nombre.clear()
+                self.lineEdit_nombre.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_curso.setEnabled(False)
+                self.lineEdit_curso.clear()
+                self.lineEdit_curso.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_clase.setEnabled(False)
+                self.lineEdit_clase.clear()
+                self.lineEdit_clase.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_padres.setEnabled(False)
+                self.lineEdit_padres.clear()
+                self.lineEdit_padres.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+        elif self.origen == 'listado':
+            if nre and len(nre) == 7:
+                if not alumno: 
+                    QMessageBox.critical(self, 'Error', 'Alumno no encontrado en la base de datos.')
+                else:
+                    self.lineEdit_nombre.setEnabled(True)
+                    self.lineEdit_nombre.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                        
+                    self.lineEdit_curso.setEnabled(True)
+                    self.lineEdit_curso.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                        
+                    self.lineEdit_clase.setEnabled(True)
+                    self.lineEdit_clase.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                        
+                    self.lineEdit_padres.setEnabled(True)
+                    self.lineEdit_padres.setStyleSheet("background-color: transparent; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                    
+                    self.lineEdit_nombre.setText(alumno[0])
+                    self.lineEdit_curso.setText(alumno[1])
+                    self.lineEdit_clase.setText(alumno[2])
+                    self.lineEdit_padres.setText(alumno[3])
+            else:
+                self.lineEdit_nombre.setEnabled(False)
+                self.lineEdit_nombre.clear()
+                self.lineEdit_nombre.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_curso.setEnabled(False)
+                self.lineEdit_curso.clear()
+                self.lineEdit_curso.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_clase.setEnabled(False)
+                self.lineEdit_clase.clear()
+                self.lineEdit_clase.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
+                
+                self.lineEdit_padres.setEnabled(False)
+                self.lineEdit_padres.clear()
+                self.lineEdit_padres.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
             
             
