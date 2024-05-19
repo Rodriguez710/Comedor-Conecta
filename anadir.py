@@ -23,7 +23,7 @@ from Connector.AlumnoConnector import *
 import json
 
 class Ui_Dialog_anadir_alumno(QDialog, object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog, origen):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(583, 468)
@@ -33,6 +33,8 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
         
         double_validator = QDoubleValidator(self)
         double_validator.setDecimals(2)
+        
+        self.origen = origen
         
         self.layoutWidget = QWidget(Dialog)
         self.layoutWidget.setObjectName(u"layoutWidget")
@@ -234,7 +236,7 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
         font2.setPointSize(15)
         font2.setBold(True)
         self.btn_anadir.setFont(font2)
-        self.btn_anadir.clicked.connect(self.anadir_alumno)
+        self.btn_anadir.clicked.connect(self.anadir_alumno_curso)
         self.btn_anadir.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_anadir.setStyleSheet(u"QPushButton{\n"
 "background-color: #2a5c94;\n"
@@ -279,18 +281,28 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
         self.btn_anadir.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
     # retranslateUi
 
-    def anadir_alumno(self):
+    def anadir_alumno_curso(self):
         nre = self.lineEdit_nre.text()
         nombre = self.lineEdit_nombre.text()
         curso = self.lineEdit_curso.text()
         clase = self.lineEdit_clase.text()
         padre = self.lineEdit_padres.text()
+        conector = AlumnoConnector()
         
-        if curso != self.curso:
-            QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}')
-        else: 
+        if self.origen == 'curso':
+            if curso != self.curso:
+                QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}')
+            else: 
+                try:
+                    conector.insertar(nre, nombre, curso, clase, padre)
+                    QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
+                    self.accept()
+
+                except Exception as e:
+                    QMessageBox.critical(self.btn_anadir, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
+                    print(e)
+        elif self.origen == 'listado': 
             try:
-                conector = AlumnoConnector()
                 conector.insertar(nre, nombre, curso, clase, padre)
                 QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
                 self.accept()
