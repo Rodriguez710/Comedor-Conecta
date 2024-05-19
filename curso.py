@@ -209,9 +209,6 @@ QTableView::item {
 QHeaderView::section {
     border: 1px solid black;
 }
-QTableView::item:nth-child(6) {
-    border: none;
-}
 """)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
         
@@ -285,14 +282,14 @@ QTableView::item:nth-child(6) {
 class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
     def __init__(self):
         super(VentanaAnadirAlumno, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, origen='curso')
 
 class VentanaEditarAlumno(Ui_Dialog_editar_alumno, QDialog):
     def __init__(self):
         super(VentanaEditarAlumno, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, origen='curso')
         
 class VentanaEliminarAlumnos(Ui_Dialog_eliminaAlumnos, QDialog):
     def __init__(self):
         super(VentanaEliminarAlumnos, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, origen='curso')
