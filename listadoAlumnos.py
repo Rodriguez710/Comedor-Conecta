@@ -20,6 +20,10 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QSpacerItem, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
 from src.resources import *
+from anadir import *
+from editar import *
+from eliminaAlumnos import *
+from Connector.AlumnoConnector import *
 
 class Ui_Dialog_listadoAlumnos(QDialog, object):
     def setupUi(self, Dialog):
@@ -29,6 +33,9 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
+        
+        
+        
         self.verticalLayout_2 = QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
@@ -69,6 +76,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(-1, 10, -1, 10)
         self.btn_volver_atras = QPushButton(Dialog)
+        self.btn_volver_atras.clicked.connect(self.close)
         self.btn_volver_atras.setObjectName(u"btn_volver_atras")
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -96,6 +104,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.btn_anadir = QPushButton(Dialog)
+        self.btn_anadir.clicked.connect(self.abrir_ventana_anadir)
         self.btn_anadir.setObjectName(u"btn_anadir")
         sizePolicy.setHeightForWidth(self.btn_anadir.sizePolicy().hasHeightForWidth())
         self.btn_anadir.setSizePolicy(sizePolicy)
@@ -119,6 +128,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.horizontalLayout_2.addWidget(self.btn_anadir)
 
         self.btn_editar = QPushButton(Dialog)
+        self.btn_editar.clicked.connect(self.abrir_ventana_editar)
         self.btn_editar.setObjectName(u"btn_editar")
         sizePolicy.setHeightForWidth(self.btn_editar.sizePolicy().hasHeightForWidth())
         self.btn_editar.setSizePolicy(sizePolicy)
@@ -142,6 +152,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.horizontalLayout_2.addWidget(self.btn_editar)
 
         self.btn_eliminar = QPushButton(Dialog)
+        self.btn_eliminar.clicked.connect(self.abrir_ventana_eliminar)
         self.btn_eliminar.setObjectName(u"btn_eliminar")
         sizePolicy.setHeightForWidth(self.btn_eliminar.sizePolicy().hasHeightForWidth())
         self.btn_eliminar.setSizePolicy(sizePolicy)
@@ -196,6 +207,11 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_sexto.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
 
         self.verticalLayout.addWidget(self.tabla_sexto)
 
@@ -228,6 +244,10 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_quinto.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_quinto.horizontalHeader().setStretchLastSection(True)
+        self.tabla_quinto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.verticalLayout.addWidget(self.tabla_quinto)
 
@@ -260,6 +280,10 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_cuarto.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_cuarto.horizontalHeader().setStretchLastSection(True)
+        self.tabla_cuarto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.verticalLayout.addWidget(self.tabla_cuarto)
 
@@ -292,6 +316,10 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_tercero.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_tercero.horizontalHeader().setStretchLastSection(True)
+        self.tabla_tercero.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.verticalLayout.addWidget(self.tabla_tercero)
 
@@ -324,6 +352,10 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_segundo.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_segundo.horizontalHeader().setStretchLastSection(True)
+        self.tabla_segundo.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.verticalLayout.addWidget(self.tabla_segundo)
 
@@ -356,12 +388,19 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "}\n"
 "")
         self.tabla_primero.horizontalHeader().setDefaultSectionSize(163)
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_primero.horizontalHeader().setStretchLastSection(True)
+        self.tabla_primero.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.verticalLayout.addWidget(self.tabla_primero)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
+        self.tablas = [self.tabla_primero, self.tabla_segundo, self.tabla_tercero, self.tabla_cuarto, self.tabla_quinto, self.tabla_sexto]
+
+        self.actualiza_todos_alumnos()
 
         self.retranslateUi(Dialog)
 
@@ -443,4 +482,76 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         ___qtablewidgetitem29 = self.tabla_primero.horizontalHeaderItem(4)
         ___qtablewidgetitem29.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
     # retranslateUi
+    
+    def abrir_ventana_anadir(self):
+        self.ventana_anadir_alumnos = VentanaAnadirAlumno()
+        self.ventana_anadir_alumnos.show()
+        self.ventana_anadir_alumnos.exec_()
+        self.limpiar_tablas()
+        self.actualiza_todos_alumnos()
 
+    def abrir_ventana_editar(self):
+        self.ventana_editar_alumnos = VentanaEditarAlumno()
+        self.ventana_editar_alumnos.show()
+        self.ventana_editar_alumnos.exec_()
+        self.limpiar_tablas()
+        self.actualiza_todos_alumnos()
+
+    def abrir_ventana_eliminar(self):
+        self.ventana_eliminar_alumnos = VentanaEliminaAlumnos()
+        self.ventana_eliminar_alumnos.show()
+        self.ventana_eliminar_alumnos.exec_()
+        self.limpiar_tablas()
+        self.actualiza_todos_alumnos()
+        
+    def actualiza_todos_alumnos(self):
+        conector = AlumnoConnector()
+        alumnos = conector.devuelveTodos()
+        for alumno in alumnos:
+            nre, nombre, curso, clase, madre = alumno
+            self.actualiza_alumnos(curso)
+
+    def actualiza_alumnos(self, curso_alumno):
+        # Convertir el curso de string a número entero
+        curso_alumno_int = int(curso_alumno[:-1])    
+        
+        # Limpia la tabla del curso antes de actualizarla
+        tabla = self.tablas[curso_alumno_int - 1]
+        
+        # Obtener datos de alumnos del curso actual
+        alumno_connector = AlumnoConnector()
+        alumnos_curso = alumno_connector.devuelvePorCurso(curso_alumno)
+        
+        for alumno in alumnos_curso:
+                nre, nombre, curso, clase, madre = alumno
+                # Agregar alumno solo si pertenece al curso
+                if alumno[2] == curso_alumno:
+                        # Configurar el número de filas en la tabla
+                        tabla.setRowCount(tabla.rowCount() + 1)
+                        # Llenar la tabla con los datos del alumno
+                        row = tabla.rowCount() - 1
+                        for col, data in enumerate(alumno):
+                                item = QTableWidgetItem(str(data))
+                                tabla.setItem(row, col, item)
+                                item.setTextAlignment(Qt.AlignCenter)
+
+    # Función para limpiar todas las tablas
+    def limpiar_tablas(self):
+        for tabla in self.tablas:
+            tabla.clearContents()
+            tabla.setRowCount(0)
+    
+class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
+        def __init__(self):
+                super(VentanaAnadirAlumno, self).__init__()
+                self.setupUi(self, origen='listado')
+
+class VentanaEditarAlumno(Ui_Dialog_editar_alumno, QDialog):
+        def __init__(self):
+                super(VentanaEditarAlumno, self).__init__()
+                self.setupUi(self, origen='listado')
+                
+class VentanaEliminaAlumnos(Ui_Dialog_eliminaAlumnos, QDialog):
+        def __init__(self):
+                super(VentanaEliminaAlumnos, self).__init__()
+                self.setupUi(self, origen='listado')
