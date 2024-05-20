@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
     QSizePolicy, QVBoxLayout, QWidget, QMessageBox)
 from src.resources import *
 from Connector.ConnectorUsuarios import *
+import bcrypt
 
 class DialogSignup(QDialog, object):
     def setupUi(self, Dialog):
@@ -221,15 +222,27 @@ class DialogSignup(QDialog, object):
         username = self.lineEdit_username.text()
         email = self.lineEdit_email.text()
         password = self.lineEdit_passwd.text()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = hashed_password.decode('utf-8')
         centro = self.lineEdit_centro.text()
         telefono = self.lineEdit_telefono.text()
         
         try:
             conector = ConnectorUsuarios()
-            conector.insertar(username, email, password, centro, telefono)
-            QMessageBox.information(self.btn_signup, "Éxito", "Usuario creado con éxito.")
-            self.accept()
+            usuario = conector.devuelvePorUsuario(username)
+            
+            if usuario is not None:
+                QMessageBox.critical(self, 'Error', 'Nombre de usuario no válido. Ya hay un usuario con ese nombre registrado.')
+                self.lineEdit_username.clear()
+                self.lineEdit_email.clear()
+                self.lineEdit_passwd.clear()
+                self.lineEdit_centro.clear()
+                self.lineEdit_telefono.clear()
+                self.lineEdit_username.setFocus()
+            else: 
+                conector.insertar(username, email, hashed_password, centro, telefono)
+                QMessageBox.information(self.btn_signup, "Éxito", "Usuario creado con éxito.")
+                self.accept()
 
         except Exception as e:
             QMessageBox.critical(self.btn_signup, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
-            print(e)
