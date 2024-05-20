@@ -20,6 +20,8 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QVBoxLayout, QWidget)
 from src.resources import *
 from curso import *
+from listadoAlumnos import *
+from ajustesUsuario import *
 import json
 
 class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
@@ -28,6 +30,13 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(750, 688)
         MainWindow.showMaximized( )
+        
+        with open("config.json", 'r', encoding='utf-8') as json_file:
+                data = json.load(json_file)
+
+        self.usuario = data['usuario']
+        self.id_usuario = data['id_usuario']
+        
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -104,6 +113,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         self.verticalLayout_3.addWidget(self.btn_chat)
 
         self.btn_alumnos = QPushButton(self.frame)
+        self.btn_alumnos.clicked.connect(self.abrir_listado_alumnos)
         self.btn_alumnos.setObjectName(u"btn_alumnos")
         self.btn_alumnos.setFont(font1)
         self.btn_alumnos.setCursor(QCursor(Qt.PointingHandCursor))
@@ -149,6 +159,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         self.verticalLayout_3.addWidget(self.btn_padres)
 
         self.btn_ajustes = QPushButton(self.frame)
+        self.btn_ajustes.clicked.connect(self.abrir_ajustes_usuario)
         self.btn_ajustes.setObjectName(u"btn_ajustes")
         self.btn_ajustes.setFont(font1)
         self.btn_ajustes.setCursor(QCursor(Qt.PointingHandCursor))
@@ -326,8 +337,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "}")
 
         self.verticalLayout_4.addWidget(self.btn_primero)
-
-
+       
         self.horizontalLayout_2.addWidget(self.frame_2)
 
         self.verticalLayout_2.addWidget(self.frame_inferior)
@@ -361,7 +371,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         
     def abrir_curso(self, curso):
         self.hide()
-        data = {"curso": curso}
+        data = {"id_usuario": self.id_usuario, "usuario": self.usuario, "curso": curso}
 
         with open("config.json", "w", encoding='utf-8') as json_file:
                 json.dump(data, json_file)
@@ -371,8 +381,29 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         self.ventana_curso.exec()
         self.show()
 
+    def abrir_listado_alumnos(self):
+        self.ventana_listado_alumnos = VentanaListadoAlumnos()
+        self.ventana_listado_alumnos.showMaximized()
+        self.ventana_listado_alumnos.exec_()
+        self.show()
+        
+    def abrir_ajustes_usuario(self):
+        self.ventana_ajustes_usuario = VentanaAjustesUsuario()
+        self.ventana_ajustes_usuario.show()
+        self.ventana_ajustes_usuario.exec_()
+        self.show()
+
 class VentanaCurso(Ui_Dialog_curso, QDialog):
         def __init__(self):
                 super(VentanaCurso, self).__init__()
                 self.setupUi(self)
-                
+
+class VentanaListadoAlumnos(Ui_Dialog_listadoAlumnos, QDialog):
+        def __init__(self):
+                super(VentanaListadoAlumnos, self).__init__()
+                self.setupUi(self)
+
+class VentanaAjustesUsuario(Ui_Dialog_ajustes, QDialog):
+        def __init__(self):
+                super(VentanaAjustesUsuario, self).__init__()
+                self.setupUi(self)
