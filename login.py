@@ -23,6 +23,7 @@ from cursos import *
 from src.resources import *
 from Connector.ConnectorUsuarios import *
 import json
+import bcrypt
 
 class Ui_Dialog_login(QDialog, object):
     def setupUi(self, Dialog):
