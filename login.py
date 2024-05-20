@@ -22,6 +22,7 @@ from signup import *
 from cursos import *
 from src.resources import *
 from Connector.ConnectorUsuarios import *
+import json
 
 class Ui_Dialog_login(QDialog, object):
     def setupUi(self, Dialog):
@@ -197,25 +198,27 @@ class Ui_Dialog_login(QDialog, object):
     
     def iniciarSesion(self):
         # Obtener el nombre de usuario o correo electrónico y la contraseña ingresados por el usuario
-        identificador = self.lineEdit_user.text()  # Puede ser el nombre de usuario o el correo electrónico
+        identificador = self.lineEdit_user.text()
         password = self.lineEdit_passwd.text()
 
         conector = ConnectorUsuarios()
         
         # Realizar la búsqueda en la base de datos
-        usuario = conector.devuelvePorUsuario(identificador, "username")
-        if usuario is None:
-            # Si no se encontró un usuario con el nombre de usuario, intentar buscar por correo electrónico
-            usuario = conector.devuelvePorUsuario(identificador, "email")
+        usuario = conector.devuelvePorUsuario(identificador)
+        
+        if usuario is not None and bcrypt.checkpw(password.encode('utf-8'), usuario[3].encode('utf-8')):
+            data = {"id_usuario": usuario[0], "usuario": usuario[1], "curso": ''}
 
-        if usuario is not None and usuario[3] == password:
+            with open("config.json", "w", encoding='utf-8') as json_file:
+                json.dump(data, json_file)
+            
             # Si se encontró un usuario y la contraseña es correcta, mostrar un mensaje de éxito
             self.cursos = VentanaCursos()
             self.cursos.show()
             self.accept()
         else:
             # Si no se encontró el usuario o la contraseña es incorrecta, mostrar un mensaje de error
-            QMessageBox.critical(self, "Error", "Nombre de usuario/correo electrónico o contraseña incorrectos.")
+            QMessageBox.critical(self, "Error", "Nombre de usuario o contraseña incorrectos.")
     
 class VentanaSignUp(DialogSignup, QDialog):
     def __init__(self):
