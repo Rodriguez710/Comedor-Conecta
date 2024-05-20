@@ -4,8 +4,8 @@ use ComedorConecta;
 
 create table users(
 id			int				auto_increment primary key,
-username	varchar(100)	not null,
-email		varchar(300)	unique not null,
+username	varchar(100)	unique not null collate utf8_bin,
+email		varchar(300)	unique not null collate utf8_bin,
 passwd		varchar(255)	not null,
 centro		varchar(200) 	not null,
 telefono 	varchar(15)		null
@@ -38,7 +38,7 @@ insert into clase (letra, curso) values ('F', '6º');
 create table alumno(
 nre			int				primary key unique,
 nombre		varchar(200)	not null,
-curso		varchar(5)				not null,
+curso		varchar(5)		not null,
 clase		char			not null,
 madre		varchar(200)	not null,
 constraint fk_clase foreign key (clase) references clase(letra)
