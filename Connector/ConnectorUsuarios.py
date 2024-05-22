@@ -35,10 +35,10 @@ class ConnectorUsuarios():
         except Exception as e:
             print(f"Error al obtener usuario: {str(e)}")
     
-    def actualizarUsuario(self, id, username, email, passwd, centro, telefono):
-        sql = "update users set username = %s, email = %s, passwd = %s, centro = %s, telefono = %s where id = %s".format(username, email, 
-                passwd, centro, telefono, id)
-        self.cursor.execute(sql, (username, email, passwd, centro, telefono, id))
+    def actualizarUsuario(self, id, username, email, centro, telefono):
+        sql = "update users set username = %s, email = %s, centro = %s, telefono = %s where id = %s".format(username, email, 
+                centro, telefono, id)
+        self.cursor.execute(sql, (username, email, centro, telefono, id))
         self.con.commit()
     
     def borrarUsuario(self, id):
@@ -46,18 +46,33 @@ class ConnectorUsuarios():
         self.cursor.execute(sql, (id))
         self.con.commit()
         
-    def devuelvePorUsuario(self, identificador, tipo):
+    def devuelvePorUsuario(self, identificador):
         try:
-            if tipo == "username":
-                sql = "SELECT * FROM users WHERE username = %s"
-            elif tipo == "email":
-                sql = "SELECT * FROM users WHERE email = %s"
-            else:
-                raise ValueError("Tipo de búsqueda no válido. Debe ser 'username' o 'email'.")
-
+            sql = "SELECT * FROM users WHERE username = %s"
             self.cursor.execute(sql, (identificador,))
             usuario = self.cursor.fetchone()
+            
             return usuario
         except Exception as e:
-            print(f"Error al obtener usuario por {tipo}: {str(e)}")
+            print(f"Error al obtener usuario: {str(e)}")
+            return None
+    
+    def devuelvePorCorreo(self, correo):
+        try:
+            sql = "SELECT * FROM users WHERE email = %s"
+            self.cursor.execute(sql, (correo,))
+            usuario = self.cursor.fetchone()
+            
+            return usuario
+        except Exception as e:
+            print(f"Error al obtener usuario: {str(e)}")
+            return None
+        
+    def cambiaContrasena(self, contrasena_nueva, email):
+        try:
+            sql = "UPDATE users SET passwd = %s WHERE email = %s".format(contrasena_nueva, email)
+            self.cursor.execute(sql, (contrasena_nueva, email,))
+            self.con.commit()
+        except Exception as e:
+            print(f'Error al cambiar la contraseña: {str(e)}')
             return None
