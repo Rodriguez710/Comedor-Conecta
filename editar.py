@@ -297,6 +297,8 @@ class Ui_Dialog_editar_alumno(QDialog, object):
         
         if self.origen == 'curso':
             try:
+                if len(nre) < 7:
+                    QMessageBox.critical(self, 'Error', 'NRE no válido. Asegúrese de que tiene 7 caracteres.')
                 if curso == self.curso:
                     conector.actualizarAlumno(nre, nombre, curso, clase, madre)
                     QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
@@ -307,9 +309,14 @@ class Ui_Dialog_editar_alumno(QDialog, object):
                 QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")
         elif self.origen == 'listado':
             try:
-                conector.actualizarAlumno(nre, nombre, curso, clase, madre)
-                QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
-                self.close()
+                if len(nre) != 7:
+                   QMessageBox.warning(self, 'Error', 'NRE introducido no válido. Asegúrese de que tenga 7 caracteres.')
+                elif curso not in('1º', '2º', '3º', '4º', '5º', '6º'):
+                    QMessageBox.warning(self, 'Error', 'Curso introducido no válido. Debe estar entre 1º y 6º.')
+                else:
+                    conector.actualizarAlumno(nre, nombre, curso, clase, madre)
+                    QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
+                    self.close()
             except Exception as e:
                 QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")    
                 
