@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
     QLabel, QLayout, QLineEdit, QPushButton, QMessageBox,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 from src.resources import *
+from cambiaContrasena import *
 from Connector.ConnectorUsuarios import *
 import json
 
@@ -34,6 +35,7 @@ class Ui_Dialog_ajustes(QDialog, object):
         
         self.nombre_usuario = data['usuario']
         self.id_usuario = data['id_usuario']
+        self.curso = data['curso']
         
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -209,6 +211,7 @@ class Ui_Dialog_ajustes(QDialog, object):
         self.horizontalLayout_3.addWidget(self.label_cambia_contrasena)
 
         self.btn_cambia_contrasena = QPushButton(Dialog)
+        self.btn_cambia_contrasena.clicked.connect(self.abrir_cambia_contrasena)
         self.btn_cambia_contrasena.setObjectName(u"btn_cambia_contrasena")
         sizePolicy1.setHeightForWidth(self.btn_cambia_contrasena.sizePolicy().hasHeightForWidth())
         self.btn_cambia_contrasena.setSizePolicy(sizePolicy1)
@@ -260,7 +263,6 @@ class Ui_Dialog_ajustes(QDialog, object):
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
-
 
         self.verticalLayout_3.addLayout(self.verticalLayout)
 
@@ -325,7 +327,23 @@ class Ui_Dialog_ajustes(QDialog, object):
                 id_usuario = self.id_usuario
                 conector.actualizarUsuario(id_usuario, nuevo_nombre_usuario, nuevo_email, nuevo_centro, nuevo_telefono)
                 QMessageBox.information(self.btn_confirmar, "Éxito", "Inforamción actualizada correctamente.")
+                
+                data = {"id_usuario": id_usuario, "usuario": nuevo_nombre_usuario, "curso": self.curso}
+                
+                with open('config.json', 'w', encoding='utf-8')as json_file:
+                    json.dump(data, json_file)
+                
                 self.accept()
         except Exception as e:
             QMessageBox.critical(self.btn_confirmar, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
             print(e)
+            
+    def abrir_cambia_contrasena(self):
+        self.ventana_cambia_contrasena = VentanaCambiaContrasena()
+        self.ventana_cambia_contrasena.show()
+        self.ventana_cambia_contrasena.exec_()
+
+class VentanaCambiaContrasena(Ui_Dialog_cambiaContrasena, QDialog):
+    def __init__(self):
+        super(VentanaCambiaContrasena, self).__init__()
+        self.setupUi(self)
