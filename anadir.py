@@ -294,18 +294,26 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
                 QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}')
             else: 
                 try:
-                    conector.insertar(nre, nombre, curso, clase, padre)
-                    QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
-                    self.accept()
+                    if len(nre) != 7:
+                        QMessageBox.warning(self, 'Error', 'NRE introducido no válido. Asegúrese de que tenga 7 caracteres.')
+                    else:
+                        conector.insertar(nre, nombre, curso, clase, padre)
+                        QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
+                        self.accept()
 
                 except Exception as e:
                     QMessageBox.critical(self.btn_anadir, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
                     print(e)
         elif self.origen == 'listado': 
             try:
-                conector.insertar(nre, nombre, curso, clase, padre)
-                QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
-                self.accept()
+                if curso not in('1º', '2º', '3º', '4º', '5º', '6º'):
+                    QMessageBox.warning(self, 'Error', 'Curso introducido no válido. Debe estar entre 1º y 6º.')
+                elif len(nre) != 7:
+                        QMessageBox.warning(self, 'Error', 'NRE introducido no válido. Asegúrese de que tenga 7 caracteres.')
+                else:
+                    conector.insertar(nre, nombre, curso, clase, padre)
+                    QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
+                    self.accept()
 
             except Exception as e:
                 QMessageBox.critical(self.btn_anadir, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
