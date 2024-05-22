@@ -27,6 +27,8 @@ class Ui_Dialog_cambiaContrasena(QDialog, object):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(570, 399)
+        Dialog.setFixedSize(570, 399)    
+        
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
