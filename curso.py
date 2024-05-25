@@ -107,6 +107,27 @@ class Ui_Dialog_curso(QDialog, object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
+        self.pushButton_5 = QPushButton(Dialog)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+        sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
+        self.pushButton_5.setSizePolicy(sizePolicy)
+        self.pushButton_5.setStyleSheet(u"QPushButton{\n"
+"background-color: #ffffff;\n"
+"color: #2a5c94;\n"
+"padding: 10px 20px;\n"
+"border: 2px solid #2a5c94;\n"
+"border-radius: 5px;\n"
+"font-size: 16px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #2a5c94;\n"
+"color: white;\n"
+"}")
+        icon1 = QIcon()
+        icon1.addFile(u":/iconosLaterales/mensaje.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_5.setIcon(icon1)
+        self.horizontalLayout_2.addWidget(self.pushButton_5)
+
         self.pushButton_2 = QPushButton(Dialog)
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.clicked.connect(self.abrir_anadir_alumno)
@@ -233,6 +254,7 @@ QHeaderView::section {
         self.label_logo.setText("")
         self.label.setText(f'Alumnos de {self.curso}')
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
+        self.pushButton_5.setText(QCoreApplication.translate("Dialog", u"Enviar mensaje", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.pushButton_3.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
         self.pushButton_4.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno", None))
