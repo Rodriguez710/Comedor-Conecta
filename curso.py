@@ -23,6 +23,7 @@ from src.resources import *
 from editar import *
 from anadir import *
 from eliminaAlumnos import *
+from mandarMensaje import *
 import json
 
 
@@ -108,6 +109,8 @@ class Ui_Dialog_curso(QDialog, object):
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
         self.pushButton_5 = QPushButton(Dialog)
+        self.pushButton_5.clicked.connect(self.abrir_ventana_enviar_mensaje)
+        self.pushButton_5.setCursor(QCursor(Qt.PointingHandCursor))
         self.pushButton_5.setObjectName(u"pushButton_5")
         sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
         self.pushButton_5.setSizePolicy(sizePolicy)
@@ -288,6 +291,11 @@ QHeaderView::section {
         self.ventana_eliminar_alumnos.exec_()
         self.actualiza_alumnos()
         
+    def abrir_ventana_enviar_mensaje(self):
+        self.ventana_enviar_mensaje = VentanaMandarMensajeCurso()
+        self.ventana_enviar_mensaje.show()
+        self.ventana_enviar_mensaje.exec_()
+        
     def actualiza_alumnos(self):
         # Obtener datos de alumnos del curso actual
         alumno_connector = AlumnoConnector()
@@ -314,4 +322,9 @@ class VentanaEditarAlumno(Ui_Dialog_editar_alumno, QDialog):
 class VentanaEliminarAlumnos(Ui_Dialog_eliminaAlumnos, QDialog):
     def __init__(self):
         super(VentanaEliminarAlumnos, self).__init__()
+        self.setupUi(self, origen='curso')
+        
+class VentanaMandarMensajeCurso(Ui_Dialog_mensaje, QDialog):
+    def __init__(self):
+        super(VentanaMandarMensajeCurso, self).__init__()
         self.setupUi(self, origen='curso')
