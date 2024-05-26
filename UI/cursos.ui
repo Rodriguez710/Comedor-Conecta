@@ -42,9 +42,6 @@
         <height>60</height>
        </size>
       </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -121,9 +118,8 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #2a5c94;
-border-top-right-radius: 10px;
-</string>
+          <string notr="true">background-color:rgb(62, 146, 255);
+border-top-right-radius: 10px;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -149,7 +145,6 @@ border-top-right-radius: 10px;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <bold>true</bold>
              </font>
             </property>
             <property name="cursor">
@@ -161,8 +156,6 @@ border: none;
 background-color: transparent;
 padding: 10px;
 border-radius: 5px;
-color: white;
-font-weight: bold;
 }
 QPushButton:hover{
 background-color: rgb(60, 79, 255);
@@ -189,7 +182,6 @@ text-decoration: underline;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <bold>true</bold>
              </font>
             </property>
             <property name="cursor">
@@ -201,8 +193,6 @@ border: none;
 background-color: transparent;
 padding: 10px;
 border-radius: 5px;
-color: white;
-font-weight: bold;
 }
 QPushButton:hover{
 background-color: rgb(60, 79, 255);
@@ -229,7 +219,6 @@ text-decoration: underline;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <bold>true</bold>
              </font>
             </property>
             <property name="cursor">
@@ -241,8 +230,6 @@ border: none;
 background-color: transparent;
 padding: 10px;
 border-radius: 5px;
-color: white;
-font-weight: bold;
 }
 QPushButton:hover{
 background-color: rgb(60, 79, 255);
@@ -268,7 +255,6 @@ text-decoration: underline;}</string>
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <bold>true</bold>
              </font>
             </property>
             <property name="cursor">
@@ -280,8 +266,6 @@ border: none;
 background-color: transparent;
 padding: 10px;
 border-radius: 5px;
-color: white;
-font-weight: bold;
 }
 QPushButton:hover{
 background-color: rgb(60, 79, 255);
@@ -323,7 +307,6 @@ text-decoration: underline;}</string>
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <bold>true</bold>
              </font>
             </property>
             <property name="cursor">
@@ -335,8 +318,6 @@ border: none;
 background-color: transparent;
 padding: 10px;
 border-radius: 5px;
-color: white;
-font-weight: bold;
 }
 QPushButton:hover{
 background-color: rgb(60, 79, 255);
@@ -344,7 +325,7 @@ text-decoration: underline;
 }</string>
             </property>
             <property name="text">
-             <string>Log out</string>
+             <string>Cerrar Sesión</string>
             </property>
             <property name="icon">
              <iconset resource="src/resources.qrc">
@@ -579,7 +560,6 @@ color: white;
  </widget>
  <resources>
   <include location="src/resources.qrc"/>
-  <include location="../../../../.designer/backup/src/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
