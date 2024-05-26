@@ -23,6 +23,7 @@ from src.resources import *
 from anadir import *
 from editar import *
 from eliminaAlumnos import *
+from mandarMensaje import *
 from Connector.AlumnoConnector import *
 
 class Ui_Dialog_listadoAlumnos(QDialog, object):
@@ -102,6 +103,29 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.horizontalSpacer = QSpacerItem(800, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
+        
+        self.btn_enviar_mensaje = QPushButton(Dialog)
+        self.btn_enviar_mensaje.clicked.connect(self.abrir_ventana_enviar_mensaje)
+        self.btn_enviar_mensaje.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_enviar_mensaje.setObjectName(u"btn_enviar_mensaje")
+        sizePolicy.setHeightForWidth(self.btn_enviar_mensaje.sizePolicy().hasHeightForWidth())
+        self.btn_enviar_mensaje.setSizePolicy(sizePolicy)
+        self.btn_enviar_mensaje.setStyleSheet(u"QPushButton{\n"
+"background-color: #ffffff;\n"
+"color: #2a5c94;\n"
+"padding: 10px 20px;\n"
+"border: 2px solid #2a5c94;\n"
+"border-radius: 5px;\n"
+"font-size: 16px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #2a5c94;\n"
+"color: white;\n"
+"}")
+        icon1 = QIcon()
+        icon1.addFile(u":/iconosLaterales/mensaje.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_enviar_mensaje.setIcon(icon1)
+        self.horizontalLayout_2.addWidget(self.btn_enviar_mensaje)
 
         self.btn_anadir = QPushButton(Dialog)
         self.btn_anadir.clicked.connect(self.abrir_ventana_anadir)
@@ -412,6 +436,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.label_logo.setText("")
         self.label.setText(QCoreApplication.translate("Dialog", u"Listado de alumnos del centro:", None))
         self.btn_volver_atras.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
+        self.btn_enviar_mensaje.setText(QCoreApplication.translate("Dialog", u"Enviar mensaje", None))
         self.btn_anadir.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.btn_editar.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
         self.btn_eliminar.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno", None))
@@ -503,6 +528,11 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.ventana_eliminar_alumnos.exec_()
         self.limpiar_tablas()
         self.actualiza_todos_alumnos()
+
+    def abrir_ventana_enviar_mensaje(self):
+        self.ventana_enviar_mensaje = VentanaMandarMensajeCurso()
+        self.ventana_enviar_mensaje.show()
+        self.ventana_enviar_mensaje.exec_()
         
     def actualiza_todos_alumnos(self):
         conector = AlumnoConnector()
@@ -555,3 +585,8 @@ class VentanaEliminaAlumnos(Ui_Dialog_eliminaAlumnos, QDialog):
         def __init__(self):
                 super(VentanaEliminaAlumnos, self).__init__()
                 self.setupUi(self, origen='listado')
+
+class VentanaMandarMensajeCurso(Ui_Dialog_mensaje, QDialog):
+    def __init__(self):
+        super(VentanaMandarMensajeCurso, self).__init__()
+        self.setupUi(self, origen='listado')
