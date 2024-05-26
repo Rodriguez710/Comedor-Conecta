@@ -38,10 +38,10 @@
         <string notr="true"/>
        </property>
        <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+        <enum>QFrame::Shape::StyledPanel</enum>
        </property>
        <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+        <enum>QFrame::Shadow::Raised</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="bottomMargin">
@@ -65,7 +65,7 @@
            <bool>true</bool>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -127,10 +127,10 @@ color: white;
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
+          <enum>QSizePolicy::Policy::Fixed</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -139,6 +139,40 @@ color: white;
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_enviar_mensaje">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+background-color: #ffffff;
+color: #2a5c94;
+padding: 0 5px;
+border: 2px solid #2a5c94;
+border-radius: 5px;
+font-size: 16px;
+}
+QPushButton:hover{
+background-color: #2a5c94;
+color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>Enviar mensaje</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../src/resources.qrc">
+           <normaloff>:/iconosLaterales/mensaje.png</normaloff>:/iconosLaterales/mensaje.png</iconset>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_anadir">
@@ -562,7 +596,7 @@ background-color: transparent;
  </widget>
  <resources>
   <include location="../src/resources.qrc"/>
-  <include location="../../../../../../src/resources.qrc"/>
+  <include location="../src/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
