@@ -77,7 +77,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Username:</string>
+          <string>Nombre de usuario</string>
          </property>
         </widget>
        </item>
@@ -115,7 +115,7 @@ background-color: transparent;
           </font>
          </property>
          <property name="text">
-          <string>Password:</string>
+          <string>Contraseña</string>
          </property>
         </widget>
        </item>
@@ -233,7 +233,7 @@ background-color: rgb(62, 62, 255)
 }</string>
          </property>
          <property name="text">
-          <string>Log in</string>
+          <string>Iniciar Sesión</string>
          </property>
         </widget>
        </item>
