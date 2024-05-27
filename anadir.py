@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'signup.ui'
+## Form generated from reading UI file 'anadir.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.0
 ##
@@ -10,38 +10,40 @@
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt, Signal)
+    QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
+    QFont, QFontDatabase, QGradient, QIcon, QDoubleValidator,
     QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform, QDoubleValidator)
+    QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
-    QLabel, QLayout, QLineEdit, QPushButton,
-    QSizePolicy, QVBoxLayout, QWidget, QMessageBox)
+    QLabel, QLayout, QLineEdit, QPushButton, QMessageBox,
+    QSizePolicy, QVBoxLayout, QWidget)
 from src.resources import *
-from Connector.ConnectorUsuarios import *
-import bcrypt
+from Connector.AlumnoConnector import *
+import json
 
-class DialogSignup(QDialog, object):
+class Ui_Dialog_anadir_alumno(QDialog, object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(572, 444)
+        Dialog.resize(583, 468)
+        icon = QIcon()
+        icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
+        Dialog.setWindowIcon(icon)
         
         double_validator = QDoubleValidator(self)
         double_validator.setDecimals(2)
         
-        icon = QIcon()
-        icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
-        Dialog.setWindowIcon(icon)
-        self.verticalLayout_3 = QVBoxLayout(Dialog)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout = QVBoxLayout()
+        self.layoutWidget = QWidget(Dialog)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 10, 561, 451))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.logo = QLabel(Dialog)
+        self.logo = QLabel(self.layoutWidget)
         self.logo.setObjectName(u"logo")
         sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -61,141 +63,200 @@ class DialogSignup(QDialog, object):
 
         self.formLayout_3 = QFormLayout()
         self.formLayout_3.setObjectName(u"formLayout_3")
+        self.formLayout_3.setVerticalSpacing(0)
         self.formLayout_3.setContentsMargins(160, -1, -1, -1)
-        self.label_username = QLabel(Dialog)
-        self.label_username.setObjectName(u"label_username")
+        self.label_nre = QLabel(self.layoutWidget)
+        self.label_nre.setObjectName(u"label_nre")
+        self.label_nre.setMaximumSize(QSize(102, 16777215))
         font = QFont()
         font.setPointSize(13)
-        self.label_username.setFont(font)
+        font.setBold(True)
+        self.label_nre.setFont(font)
+        self.label_nre.setStyleSheet(u"QLabel{\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"background-color: #2a5c94;\n"
+"border: 1px solid black;\n"
+"padding: 5px 10px;\n"
+"}")
 
-        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_username)
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_nre)
 
-        self.lineEdit_username = QLineEdit(Dialog)
-        self.lineEdit_username.setObjectName(u"lineEdit_username")
+        self.lineEdit_nre = QLineEdit(self.layoutWidget)
+        self.lineEdit_nre.setObjectName(u"lineEdit_nre")
+        self.lineEdit_nre.setMaxLength(7)
+        self.lineEdit_nre.setValidator(double_validator)
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.lineEdit_username.sizePolicy().hasHeightForWidth())
-        self.lineEdit_username.setSizePolicy(sizePolicy1)
-        self.lineEdit_username.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_username.setStyleSheet(u"QLineEdit{\n"
+        sizePolicy1.setHeightForWidth(self.lineEdit_nre.sizePolicy().hasHeightForWidth())
+        self.lineEdit_nre.setSizePolicy(sizePolicy1)
+        self.lineEdit_nre.setMaximumSize(QSize(200, 16777215))
+        self.lineEdit_nre.setStyleSheet(u"QLineEdit{\n"
 "border: 0px;\n"
 "border-bottom: 1px solid black;\n"
 "background-color: transparent;\n"
+"margin-top: 10px;\n"
 "}")
 
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_username)
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_nre)
 
-        self.label_email = QLabel(Dialog)
-        self.label_email.setObjectName(u"label_email")
+        self.label_nombre = QLabel(self.layoutWidget)
+        self.label_nombre.setObjectName(u"label_nombre")
+        self.label_nombre.setMaximumSize(QSize(102, 16777215))
+        self.label_nombre.setFont(font)
+        self.label_nombre.setStyleSheet(u"QLabel{\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"background-color: #2a5c94;\n"
+"border: 1px solid black;\n"
+"border-top: none;\n"
+"padding: 5px 10px;\n"
+"margin-top: 0px;\n"
+"}")
+
+        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_nombre)
+
+        self.lineEdit_nombre = QLineEdit(self.layoutWidget)
+        self.lineEdit_nombre.setObjectName(u"lineEdit_nombre")
+        sizePolicy1.setHeightForWidth(self.lineEdit_nombre.sizePolicy().hasHeightForWidth())
+        self.lineEdit_nombre.setSizePolicy(sizePolicy1)
+        self.lineEdit_nombre.setMaximumSize(QSize(200, 16777215))
+        self.lineEdit_nombre.setStyleSheet(u"QLineEdit{\n"
+"border: 0px;\n"
+"border-bottom: 1px solid black;\n"
+"background-color: transparent;\n"
+"margin-top: 10px;\n"
+"}")
+
+        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.lineEdit_nombre)
+
+        self.label_curso = QLabel(self.layoutWidget)
+        self.label_curso.setObjectName(u"label_curso")
+        self.label_curso.setMaximumSize(QSize(102, 16777215))
+        self.label_curso.setFont(font)
+        self.label_curso.setStyleSheet(u"QLabel{\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"background-color: #2a5c94;\n"
+"border: 1px solid black;\n"
+"border-top: none;\n"
+"padding: 5px 10px;\n"
+"margin-top: 0px;\n"
+"}")
+
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_curso)
+
+        self.lineEdit_curso = QLineEdit(self.layoutWidget)
+        self.lineEdit_curso.setObjectName(u"lineEdit_curso")
+        sizePolicy1.setHeightForWidth(self.lineEdit_curso.sizePolicy().hasHeightForWidth())
+        self.lineEdit_curso.setSizePolicy(sizePolicy1)
+        self.lineEdit_curso.setMaximumSize(QSize(200, 16777215))
+        self.lineEdit_curso.setStyleSheet(u"QLineEdit{\n"
+"border: 0px;\n"
+"border-bottom: 1px solid black;\n"
+"background-color: transparent;\n"
+"margin-top: 10px;\n"
+"}")
+
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.lineEdit_curso)
+
+        self.label_clase = QLabel(self.layoutWidget)
+        self.label_clase.setObjectName(u"label_clase")
+        self.label_clase.setMaximumSize(QSize(102, 16777215))
+        self.label_clase.setFont(font)
+        self.label_clase.setStyleSheet(u"QLabel{\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"background-color: #2a5c94;\n"
+"border: 1px solid black;\n"
+"border-top: none;\n"
+"padding: 5px 10px;\n"
+"margin-top: 0px;\n"
+"}")
+
+        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_clase)
+
+        self.lineEdit_clase = QLineEdit(self.layoutWidget)
+        self.lineEdit_clase.setObjectName(u"lineEdit_clase")
+        self.lineEdit_clase.setMaximumSize(QSize(200, 16777215))
+        self.lineEdit_clase.setStyleSheet(u"QLineEdit{\n"
+"border: 0px;\n"
+"border-bottom: 1px solid black;\n"
+"background-color: transparent;\n"
+"margin-top: 10px;\n"
+"}")
+
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.lineEdit_clase)
+
+        self.label_padres = QLabel(self.layoutWidget)
+        self.label_padres.setObjectName(u"label_padres")
+        self.label_padres.setMaximumSize(QSize(102, 16777215))
         font1 = QFont()
         font1.setPointSize(14)
-        self.label_email.setFont(font1)
+        font1.setBold(True)
+        self.label_padres.setFont(font1)
+        self.label_padres.setStyleSheet(u"QLabel{\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"background-color: #2a5c94;\n"
+"border: 1px solid black;\n"
+"border-top: none;\n"
+"padding: 5px 10px;\n"
+"margin-top: 0px;\n"
+"}")
 
-        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_email)
+        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_padres)
 
-        self.lineEdit_email = QLineEdit(Dialog)
-        self.lineEdit_email.setObjectName(u"lineEdit_email")
-        sizePolicy1.setHeightForWidth(self.lineEdit_email.sizePolicy().hasHeightForWidth())
-        self.lineEdit_email.setSizePolicy(sizePolicy1)
-        self.lineEdit_email.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_email.setStyleSheet(u"QLineEdit{\n"
+        self.lineEdit_padres = QLineEdit(self.layoutWidget)
+        self.lineEdit_padres.setObjectName(u"lineEdit_padres")
+        self.lineEdit_padres.setMaximumSize(QSize(200, 16777215))
+        self.lineEdit_padres.setStyleSheet(u"QLineEdit{\n"
 "border: 0px;\n"
 "border-bottom: 1px solid black;\n"
 "background-color: transparent;\n"
+"margin-top: 10px;\n"
 "}")
 
-        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.lineEdit_email)
-
-        self.label_passwd = QLabel(Dialog)
-        self.label_passwd.setObjectName(u"label_passwd")
-        self.label_passwd.setFont(font)
-
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_passwd)
-
-        self.lineEdit_passwd = QLineEdit(Dialog)
-        self.lineEdit_passwd.setObjectName(u"lineEdit_passwd")
-        sizePolicy1.setHeightForWidth(self.lineEdit_passwd.sizePolicy().hasHeightForWidth())
-        self.lineEdit_passwd.setSizePolicy(sizePolicy1)
-        self.lineEdit_passwd.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_passwd.setStyleSheet(u"QLineEdit{\n"
-"border: 0px;\n"
-"border-bottom: 1px solid black;\n"
-"background-color: transparent;\n"
-"}")
-        self.lineEdit_passwd.setEchoMode(QLineEdit.Password)
-
-        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.lineEdit_passwd)
-
-        self.label_centro = QLabel(Dialog)
-        self.label_centro.setObjectName(u"label_centro")
-        font2 = QFont()
-        font2.setPointSize(12)
-        self.label_centro.setFont(font2)
-
-        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_centro)
-
-        self.lineEdit_centro = QLineEdit(Dialog)
-        self.lineEdit_centro.setObjectName(u"lineEdit_centro")
-        self.lineEdit_centro.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_centro.setStyleSheet(u"QLineEdit{\n"
-"border: 0px;\n"
-"border-bottom: 1px solid black;\n"
-"background-color: transparent;\n"
-"}")
-
-        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.lineEdit_centro)
-
-        self.label_telefono = QLabel(Dialog)
-        self.label_telefono.setObjectName(u"label_telefono")
-        self.label_telefono.setFont(font1)
-
-        self.formLayout_3.setWidget(4, QFormLayout.LabelRole, self.label_telefono)
-
-        self.lineEdit_telefono = QLineEdit(Dialog)
-        self.lineEdit_telefono.setObjectName(u"lineEdit_telefono")
-        self.lineEdit_telefono.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit_telefono.setValidator(double_validator)
-        self.lineEdit_telefono.setStyleSheet(u"QLineEdit{\n"
-"border: 0px;\n"
-"border-bottom: 1px solid black;\n"
-"background-color: transparent;\n"
-"}")
-
-        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.lineEdit_telefono)
+        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.lineEdit_padres)
 
 
         self.verticalLayout.addLayout(self.formLayout_3)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.btn_signup = QPushButton(Dialog)
-        self.btn_signup.setObjectName(u"btn_signup")
-        sizePolicy1.setHeightForWidth(self.btn_signup.sizePolicy().hasHeightForWidth())
-        self.btn_signup.setSizePolicy(sizePolicy1)
-        font3 = QFont()
-        font3.setPointSize(15)
-        self.btn_signup.setFont(font3)
-        self.btn_signup.clicked.connect(self.altaUsuario)
-        self.btn_signup.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_signup.setStyleSheet(u"QPushButton{\n"
+        self.horizontalLayout.setContentsMargins(-1, 6, -1, -1)
+        self.btn_anadir = QPushButton(self.layoutWidget)
+        self.btn_anadir.setObjectName(u"btn_anadir")
+        sizePolicy1.setHeightForWidth(self.btn_anadir.sizePolicy().hasHeightForWidth())
+        self.btn_anadir.setSizePolicy(sizePolicy1)
+        font2 = QFont()
+        font2.setPointSize(15)
+        font2.setBold(True)
+        self.btn_anadir.setFont(font2)
+        self.btn_anadir.clicked.connect(self.anadir_alumno)
+        self.btn_anadir.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_anadir.setStyleSheet(u"QPushButton{\n"
 "background-color: #2a5c94;\n"
 "color: white;\n"
+"border: 1px solid black;\n"
 "border-radius: 10px;\n"
 "padding: 5px 35px 5px 35px;\n"
+"font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(62, 62, 255)\n"
+"background-color: rgb(11, 5, 71)\n"
 "}")
 
-        self.horizontalLayout.addWidget(self.btn_signup)
+        self.horizontalLayout.addWidget(self.btn_anadir)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-
-        self.verticalLayout_3.addLayout(self.verticalLayout)
-
+        with open('config.json', 'r')as json_file:
+            data = json.load(json_file)
+        
+        self.curso = str(data['curso']) 
 
         self.retranslateUi(Dialog)
 
@@ -203,52 +264,37 @@ class DialogSignup(QDialog, object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Sign up", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.logo.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><img src=\":/logo/logoProyecto.png\"/></p></body></html>", None))
-        self.label_username.setText(QCoreApplication.translate("Dialog", u"Username* :", None))
-        self.lineEdit_username.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduzca su nombre de usuario...", None))
-        self.label_email.setText(QCoreApplication.translate("Dialog", u"Email* :", None))
-        self.lineEdit_email.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduzca su correo electr\u00f3nico...", None))
-        self.label_passwd.setText(QCoreApplication.translate("Dialog", u"Password* :", None))
-        self.lineEdit_passwd.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduzca su contrase\u00f1a...", None))
-        self.label_centro.setText(QCoreApplication.translate("Dialog", u"Centro educativo* :", None))
-        self.lineEdit_centro.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduzca el nombre de su centro...", None))
-        self.label_telefono.setText(QCoreApplication.translate("Dialog", u"N\u00ba tel\u00e9fono:", None))
-        self.lineEdit_telefono.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduzca su n\u00ba de tel\u00e9fono...", None))
-        self.btn_signup.setText(QCoreApplication.translate("Dialog", u"Sign up", None))
+        self.label_nre.setText(QCoreApplication.translate("Dialog", u"NRE:       ", None))
+        self.lineEdit_nre.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduce el NRE del alumno...", None))
+        self.label_nombre.setText(QCoreApplication.translate("Dialog", u"Nombre:", None))
+        self.lineEdit_nombre.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduce el nombre del alumno...", None))
+        self.label_curso.setText(QCoreApplication.translate("Dialog", u"Curso:     ", None))
+        self.lineEdit_curso.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduce el curso del alumno...", None))
+        self.label_clase.setText(QCoreApplication.translate("Dialog", u"Clase:      ", None))
+        self.lineEdit_clase.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduce la clase del alumno...", None))
+        self.label_padres.setText(QCoreApplication.translate("Dialog", u"Padre:           ", None))
+        self.lineEdit_padres.setPlaceholderText(QCoreApplication.translate("Dialog", u"Introduce padre/madre del alumno...", None))
+        self.btn_anadir.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
     # retranslateUi
 
-    def altaUsuario(self):
-        username = self.lineEdit_username.text()
-        email = self.lineEdit_email.text()
-        password = self.lineEdit_passwd.text()
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        hashed_password = hashed_password.decode('utf-8')
-        centro = self.lineEdit_centro.text()
-        telefono = self.lineEdit_telefono.text()
+    def anadir_alumno(self):
+        nre = self.lineEdit_nre.text()
+        nombre = self.lineEdit_nombre.text()
+        curso = self.lineEdit_curso.text()
+        clase = self.lineEdit_clase.text()
+        padre = self.lineEdit_padres.text()
         
-        try:
-            conector = ConnectorUsuarios()
-            usuario = conector.devuelvePorUsuario(username)
-            
-            if usuario is not None:
-                QMessageBox.critical(self, 'Error', 'Nombre de usuario no válido. Ya hay un usuario con ese nombre registrado.')
-                self.reiniciar()
-            elif '@' not in email or not (email.endswith('.com') or email.endswith('.es')):
-                QMessageBox.warning(self, 'Error', 'Correo electrónico introducido no válido.')
-                self.reiniciar()
-            else: 
-                conector.insertar(username, email, hashed_password, centro, telefono)
-                QMessageBox.information(self.btn_signup, "Éxito", "Usuario creado con éxito.")
+        if curso != self.curso:
+            QMessageBox.critical(self, 'Error', f'El alumno no puede ser de un curso diferente a {self.curso}')
+        else: 
+            try:
+                conector = AlumnoConnector()
+                conector.insertar(nre, nombre, curso, clase, padre)
+                QMessageBox.information(self.btn_anadir, "Éxito", "Alumno añadido con éxito.")
                 self.accept()
 
-        except Exception as e:
-            QMessageBox.critical(self.btn_signup, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
-    
-    def reiniciar(self):
-        self.lineEdit_username.clear()
-        self.lineEdit_email.clear()
-        self.lineEdit_passwd.clear()
-        self.lineEdit_centro.clear()
-        self.lineEdit_telefono.clear()
-        self.lineEdit_username.setFocus()
+            except Exception as e:
+                QMessageBox.critical(self.btn_anadir, "Error", f"Error al insertar datos en la base de datos: {str(e)}")
+                print(e)
