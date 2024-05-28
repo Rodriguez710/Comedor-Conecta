@@ -282,7 +282,7 @@ class Ui_Dialog_anadir_alumno(QDialog, object):
     # retranslateUi
 
     def anadir_alumno(self):
-        nre = self.lineEdit_nre.text()
+        nre = str(self.lineEdit_nre.text())
         nombre = self.lineEdit_nombre.text()
         curso = self.lineEdit_curso.text()
         clase = self.lineEdit_clase.text()
