@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
     QSizePolicy, QVBoxLayout, QWidget)
 from src.resources import *
 from Connector.AlumnoConnector import *
+from Connector.MadreConnector import *
 import json
 
 class Ui_Dialog_editar_alumno(QDialog, object):
@@ -288,40 +289,71 @@ class Ui_Dialog_editar_alumno(QDialog, object):
     # retranslateUi
 
     def editar_alumno(self):
-        nre = self.lineEdit_nre.text()
+        nre = str(self.lineEdit_nre.text())
         nombre = self.lineEdit_nombre.text()
         curso = self.lineEdit_curso.text()
         clase = self.lineEdit_clase.text()
         madre = self.lineEdit_padres.text()
         conector = AlumnoConnector()
         
+        # Obtener los datos del alumno por su NRE
+        alumno_existente = conector.devuelvePorNRE(nre)
+
         if self.origen == 'curso':
             try:
-                if len(nre) < 7:
+                if len(nre) != 7:
                     QMessageBox.critical(self, 'Error', 'NRE no válido. Asegúrese de que tiene 7 caracteres.')
+                    return
+
                 if curso == self.curso:
                     conector.actualizarAlumno(nre, nombre, curso, clase, madre)
                     QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
+
+                    if madre != alumno_existente[3]:  # Comparar con el índice correcto del resultado de alumno_existente
+                        if conector.actualizaNombrePadre(madre, nre):
+                            QMessageBox.information(self, "Éxito", "Nombre del padre actualizado correctamente")
+                            self.close()
+                        else:
+                            QMessageBox.warning(self, "Error", "No se ha podido actualizar el nombre del padre")
+                            self.reiniciar()
                     self.close()
                 else:
                     QMessageBox.critical(self, 'Error', 'No se ha podido editar al alumno. Curso introducido incorrecto.')
+                    self.reiniciar()
             except Exception as e:
                 QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")
+                self.reiniciar()
         elif self.origen == 'listado':
             try:
                 if len(nre) != 7:
-                   QMessageBox.warning(self, 'Error', 'NRE introducido no válido. Asegúrese de que tenga 7 caracteres.')
-                elif curso not in('1º', '2º', '3º', '4º', '5º', '6º'):
+                    QMessageBox.warning(self, 'Error', 'NRE introducido no válido. Asegúrese de que tenga 7 caracteres.')
+                    self.reiniciar()
+                    return
+                
+                if curso not in ('1º', '2º', '3º', '4º', '5º', '6º'):
                     QMessageBox.warning(self, 'Error', 'Curso introducido no válido. Debe estar entre 1º y 6º.')
-                else:
-                    conector.actualizarAlumno(nre, nombre, curso, clase, madre)
-                    QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
-                    self.close()
+                    self.reiniciar()
+                    return
+
+                conector.actualizarAlumno(nre, nombre, curso, clase, madre)
+                QMessageBox.information(self, "Éxito", "Alumno editado correctamente")
+                
+                if madre != alumno_existente[3]:
+                    if conector.actualizaNombrePadre(madre, nre):
+                        QMessageBox.information(self, "Éxito", "Nombre del padre actualizado correctamente")
+                        self.close()
+                    else:
+                        QMessageBox.warning(self, "Error", "No se ha podido actualizar el nombre del padre")
+                        self.reiniciar()
+                self.close()
             except Exception as e:
-                QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}")    
+                QMessageBox.warning(self, "Error", f"No se ha podido editar al alumno: {str(e)}") 
+                self.reiniciar()
+        
+        self.accept()
                 
     def habilitar_campos(self):
-        nre = self.lineEdit_nre.text()
+        nre = str(self.lineEdit_nre.text())
         conector = AlumnoConnector()
         alumno = conector.devuelvePorNRE(nre)
         
@@ -401,4 +433,19 @@ class Ui_Dialog_editar_alumno(QDialog, object):
                 self.lineEdit_padres.clear()
                 self.lineEdit_padres.setStyleSheet("background-color: #b5b5b5; border: 0px; border-bottom: 1px solid black; margin-top: 10px;")
             
-            
+    def actualizar_nombre_padre(self):
+        nre = str(self.lineEdit_nre.text())
+        if nre:
+            nuevo_nombre_padre = self.lineEdit_padres.text()
+            conector = AlumnoConnector()
+            if conector.actualizaNombrePadre(nre, nuevo_nombre_padre):
+                QMessageBox.information(self, 'Éxito', "Nombre del padre actualizado correctamente.")
+            else:
+                QMessageBox.critical(self, 'Error', 'No se pudo actualizar el nombre del padre en la base de datos.')
+    
+    def reiniciar(self):
+        self.lineEdit_nombre.clear()
+        self.lineEdit_nre.clear()
+        self.lineEdit_padres.clear()
+        self.lineEdit_clase.clear()
+        self.lineEdit_curso.clear()
