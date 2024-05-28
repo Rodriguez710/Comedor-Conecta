@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFormLayout, QHBoxLayout,
 from src.resources import *
 from Connector.AlumnoConnector import *
 from Connector.MadreConnector import *
+from editar import *
 
 class Ui_Dialog_editar_padres(QDialog, object):
     def setupUi(self, Dialog_editar_padres):
@@ -266,7 +267,7 @@ class Ui_Dialog_editar_padres(QDialog, object):
     def actualizar_padres(self):
         id_padre = self.lineEdit_id.text()
         nombre = self.lineEdit_nombre.text()
-        nre_hijo = self.lineEdit_nre.text()
+        nre_hijo = str(self.lineEdit_nre.text())
         email = self.lineEdit_email.text()
         direccion = self.lineEdit_direccion.text()
         conector = MadreConnector()
@@ -281,7 +282,11 @@ class Ui_Dialog_editar_padres(QDialog, object):
                 return
             
             if alumno[3] != nombre:
-                QMessageBox.warning(self, 'Error', f'El alumno tiene asociado un/a padre/madre con otro nombre.\nSi quiere asociar a {nombre} como padre/madre al alumno con NRE: {nre_hijo} actualice la información de dicho alumno.')
+                reply = QMessageBox.warning(self, 'Error', f'El alumno tiene asociado un/a padre/madre con otro nombre.\nSi quiere asociar a {nombre} como padre/madre al alumno con NRE: {nre_hijo} actualice la información de dicho alumno.\n\n¿Desea modificar la información de dicho alumno?', QMessageBox.Yes | QMessageBox.No)
+                
+                if reply == QMessageBox.Yes:
+                    self.abrir_editar_alumno(nre_hijo)
+               
                 self.reiniciar()
                 return
             
@@ -335,8 +340,18 @@ class Ui_Dialog_editar_padres(QDialog, object):
             self.lineEdit_nre.clear()
             self.lineEdit_email.clear()
             self.lineEdit_direccion.clear()
+    
+    def abrir_editar_alumno(self, nre):
+        self.dialog_editar_alumno = QDialog(self)
+        self.ui_editar_alumno = Ui_Dialog_editar_alumno()
+        self.ui_editar_alumno.setupUi(self.dialog_editar_alumno, origen='listado')
+        self.ui_editar_alumno.lineEdit_nre.setText(nre)
+        self.dialog_editar_alumno.show()
+        self.dialog_editar_alumno.exec_()
+        self.accept()
                 
     def reiniciar(self):
+        self.lineEdit_id.clear()
         self.lineEdit_nombre.clear()
         self.lineEdit_nre.clear()
         self.lineEdit_email.clear()
