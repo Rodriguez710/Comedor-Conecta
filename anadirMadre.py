@@ -260,8 +260,14 @@ class Ui_Dialog_anadir_padres(QDialog, object):
             if alumno:
                 conector_madre = MadreConnector()
                 
+                if '@' not in email or not (email.endswith('.com') or email.endswith('.es')):
+                    QMessageBox.warning(self, 'Error', 'Correo electrónico introducido no válido.')
+                    self.reiniciar()
+                    return
+                
                 if alumno[3] != nombre:
                     QMessageBox.warning(self, 'Error', f'El alumno tiene asociado un/a padre/madre con otro nombre: {alumno[3]}.\nSi quiere asociar a {nombre} como padre/madre al alumno con NRE: {nre} actualice la información de dicho alumno.')
+                    self.reiniciar()
                     return
                 
                 # Comprobar si el NRE ya existe en la tabla madre
