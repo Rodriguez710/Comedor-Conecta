@@ -16,10 +16,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDialog, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QPushButton,
+    QHBoxLayout, QHeaderView, QLabel, QPushButton, QMessageBox,
     QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QWidget)
 from src.resources import *
+from Connector.AlumnoConnector import *
+import json
+import base64
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+import os.path
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 class Ui_Dialog_mensaje(QDialog, object):
     def setupUi(self, Dialog, origen):
@@ -30,7 +41,17 @@ class Ui_Dialog_mensaje(QDialog, object):
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
         
+        with open('config.json', 'r', encoding='utf-8') as json_file:
+            data = json.load(json_file)
+        
+        self.curso = data['curso']
         self.origen = origen
+        
+        # Archivo JSON de credenciales descargado desde la Consola de Desarrolladores de Google
+        self.credenciales_archivo = 'credentials.json'
+
+        # Alcance de la API de Gmail
+        self.alcance = ['https://www.googleapis.com/auth/gmail.send']
         
         self.verticalLayout_2 = QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -110,8 +131,8 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.tableWidget = QTableWidget(Dialog)
-        if (self.tableWidget.columnCount() < 5):
-            self.tableWidget.setColumnCount(5)
+        if (self.tableWidget.columnCount() < 6):
+            self.tableWidget.setColumnCount(6)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -122,12 +143,45 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
-"background-color: transparent;\n"
-"}\n"
-"")
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
+        
+        self.mostrar_alumnos()
+        
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.setColumnWidth(5, 2)  # Ajusta según el tamaño necesario para el checkbox
+        
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # Permite ajustar manualmente
+        self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)  # NRE
+        self.tableWidget.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)  # Nombre
+        self.tableWidget.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)  # Curso
+        self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)  # Clase
+        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)  # Padre/Madre
+        self.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeToContents)  # Seleccionar
+        
+        self.tableWidget.setStyleSheet("""
+QTableView::item {
+    border: none;
+}
+QHeaderView::section {
+    border: 1px solid black;
+}
+QTableView::item:nth-child(6) {
+    border: none;
+}
+""")
+
+        
+        # Supongamos que has llenado la tabla con los datos de los alumnos
+        for row in range(self.tableWidget.rowCount()):
+            checkbox_item = QTableWidgetItem()
+            checkbox_item.setCheckState(Qt.Unchecked)
+            self.tableWidget.setItem(row, 5, checkbox_item)  # La columna 5 es para los checkboxes
+
+        self.verticalLayout.addWidget(self.tableWidget)
 
         self.verticalLayout.addWidget(self.tableWidget)
 
@@ -135,6 +189,7 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(-1, 5, -1, 5)
         self.btn_enviar_mensaje = QPushButton(Dialog)
+        self.btn_enviar_mensaje.clicked.connect(self.enviar_correo)
         self.btn_enviar_mensaje.setObjectName(u"btn_enviar_mensaje")
         sizePolicy.setHeightForWidth(self.btn_enviar_mensaje.sizePolicy().hasHeightForWidth())
         self.btn_enviar_mensaje.setSizePolicy(sizePolicy)
@@ -191,6 +246,101 @@ class Ui_Dialog_mensaje(QDialog, object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Clase", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
-        self.btn_enviar_mensaje.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno/s", None))
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"", None));
+        self.btn_enviar_mensaje.setText(QCoreApplication.translate("Dialog", u"Enviar correo/s", None))
     # retranslateUi
 
+    def mostrar_alumnos(self):
+        conector = AlumnoConnector()
+        if self.origen == 'curso':
+            # Obtener datos de alumnos del curso actual
+            alumnos_curso = conector.devuelvePorCurso(self.curso)
+            # Configurar el número de filas en la tabla
+            self.tableWidget.setRowCount(len(alumnos_curso))
+            # Llenar la tabla con los datos de los alumnos
+            for row, alumno in enumerate(alumnos_curso):
+                for col, data in enumerate(alumno):
+                    item = QTableWidgetItem(str(data))
+                    self.tableWidget.setItem(row, col, item)
+                    item.setTextAlignment(Qt.AlignCenter)
+        elif self.origen == 'listado':
+            alumnos = conector.devuelveTodos()
+            # Configurar el número de filas en la tabla
+            self.tableWidget.setRowCount(len(alumnos))
+            # Llenar la tabla con los datos de los alumnos
+            for row, alumno in enumerate(alumnos):
+                for col, data in enumerate(alumno):
+                    item = QTableWidgetItem(str(data))
+                    self.tableWidget.setItem(row, col, item)
+                    item.setTextAlignment(Qt.AlignCenter)
+                    
+    def obtener_padres_seleccionados(self):
+        conector = AlumnoConnector()
+        padres_seleccionados = []
+        emails = []
+
+        for row in range(self.tableWidget.rowCount()):
+            checkbox_item = self.tableWidget.item(row, 5)  # La columna 5 es para los checkboxes
+
+            if checkbox_item is not None and checkbox_item.checkState() == Qt.Checked:
+                nre_alumno = self.tableWidget.item(row, 0).text()  # La columna 0 es para el NRE
+                padre = conector.devuelvePadrePorNREHijo(nre_alumno)  # Suponiendo que hay una función devuelvePadrePorNRE en AlumnoConnector
+                if padre:
+                    padres_seleccionados.append(padre)
+        
+        for padre in padres_seleccionados:
+            emails.append(padre[3])
+
+        return emails
+    
+    # Función para enviar un correo electrónico utilizando la API de Gmail
+    def enviar_correo(self):
+        destinatarios = self.obtener_padres_seleccionados()
+        asunto = 'Mensaje del comedor escolar'
+        cuerpo = f'Este ha sido hoy el comportamiento de tu hijo/a en el comedor: {self.box_seleccion_mensaje.currentText()}'
+        cantidad_correos = 0
+        
+        for destinatario in destinatarios:
+            # Crear mensaje de correo electrónico
+            mensaje_correo = MIMEMultipart()
+            mensaje_correo['From'] = 'me'
+            mensaje_correo['To'] = destinatario
+            mensaje_correo['Subject'] = asunto
+            mensaje_correo.attach(MIMEText(cuerpo, 'plain'))
+            credenciales = self.obtener_credenciales()
+
+            # Construir el servicio de Gmail
+            servicio_gmail = build('gmail', 'v1', credentials=credenciales)
+            
+            mensaje = {'raw': base64.urlsafe_b64encode(mensaje_correo.as_string().encode()).decode()}
+            try:
+                servicio_gmail.users().messages().send(userId='me', body=mensaje).execute()
+                cantidad_correos = cantidad_correos + 1
+            except Exception as e:
+                QMessageBox.warning(self, 'Error', 'Error al enviar el correo electrónico:', e)
+        QMessageBox.information(self, 'Éxito', f'Se han enviado correctamente {cantidad_correos} correos electrónicos.')
+        
+    
+    # Función para obtener credenciales de usuario
+    def obtener_credenciales(self):
+        credenciales = None
+
+        # Comprobar si ya hay credenciales almacenadas
+        if os.path.exists('token.json'):
+            credenciales = Credentials.from_authorized_user_file('token.json')
+
+        # Si no hay credenciales válidas disponibles, solicitar al usuario que inicie sesión
+        if not credenciales or not credenciales.valid:
+            if credenciales and credenciales.expired and credenciales.refresh_token:
+                credenciales.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    self.credenciales_archivo, self.alcance)
+                credenciales = flow.run_local_server(port=0)
+
+            # Guardar las credenciales para futuros usos
+            with open('token.json', 'w') as token:
+                token.write(credenciales.to_json())
+
+        return credenciales
