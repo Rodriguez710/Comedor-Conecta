@@ -59,7 +59,7 @@ class MadreConnector():
         self.cursor.execute(sql, (nre_hijo,))
         count = self.cursor.fetchone()[0]
         return count > 0
-    
+        
     def eliminar_padres_seleccionados(self, ids):
         if not ids:
             print("No se han seleccionado alumnos para eliminar.")
@@ -76,3 +76,13 @@ class MadreConnector():
         finally:
             self.cursor.close()
             self.con.close()
+            
+    def devuelvePorNREHijo(self, nre):
+        try:
+            sql = "SELECT id, nombre, nre_hijo, email, direccion FROM madre WHERE nre_hijo = %s".format(nre)
+            self.cursor.execute(sql, (nre))
+            madre = self.cursor.fetchone()
+            return madre
+        except Exception as e:
+            print(f"Error al obtener las madres del curso: {str(e)}")
+            return None
