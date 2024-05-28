@@ -69,3 +69,25 @@ class AlumnoConnector():
         except Exception as e:
             print(f"Error al obtener los alumnos del curso: {str(e)}")
             return []
+
+    def actualizaNombrePadre(self, nuevo_nombre_padre,nre):
+        try:
+            nombre = str(nuevo_nombre_padre)
+            nre_alumno = str(nre)
+            sql = "UPDATE madre SET nombre = %s WHERE nre_hijo = %s"
+            self.cursor.execute(sql, (nombre, nre_alumno))
+            self.con.commit()
+            return True
+        except Exception as e:
+            print(f"Error actualizando nombre del padre: {e}")
+            return False
+    
+    def devuelvePadrePorNREHijo(self, nre):
+        try:
+            sql = "SELECT id, nombre, nre_hijo, email, direccion FROM madre WHERE nre_hijo = %s".format(nre)
+            self.cursor.execute(sql, (nre))
+            madre = self.cursor.fetchone()
+            return madre
+        except Exception as e:
+            print(f"Error al obtener las madres del curso: {str(e)}")
+            return None
