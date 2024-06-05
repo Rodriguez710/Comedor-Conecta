@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'listadoAlumnos.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.0
+## Created by: Qt User Interface Compiler version 6.6.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,6 +23,7 @@ from src.resources import *
 from anadir import *
 from editar import *
 from eliminaAlumnos import *
+from importar import *
 from mandarMensaje import *
 from Connector.AlumnoConnector import *
 
@@ -34,7 +35,6 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         icon = QIcon()
         icon.addFile(u":/logo/iconoProyecto.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
-        
         self.verticalLayout_2 = QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
@@ -77,7 +77,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.btn_volver_atras = QPushButton(Dialog)
         self.btn_volver_atras.clicked.connect(self.close)
         self.btn_volver_atras.setObjectName(u"btn_volver_atras")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_volver_atras.sizePolicy().hasHeightForWidth())
@@ -98,16 +98,40 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.horizontalLayout_2.addWidget(self.btn_volver_atras)
 
-        self.horizontalSpacer = QSpacerItem(800, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(350, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
-        
+
+        self.pushButton = QPushButton(Dialog)
+        self.pushButton.clicked.connect(self.abrir_ventana_importar)
+        self.pushButton.setObjectName(u"pushButton")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton.setStyleSheet(u"QPushButton{\n"
+"background-color: #ffffff;\n"
+"color: #2a5c94;\n"
+"padding: 10px 20px;\n"
+"border: 2px solid #2a5c94;\n"
+"border-radius: 5px;\n"
+"font-size: 16px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #2a5c94;\n"
+"color: white;\n"
+"}")
+
+        self.horizontalLayout_2.addWidget(self.pushButton)
+
         self.btn_enviar_mensaje = QPushButton(Dialog)
         self.btn_enviar_mensaje.clicked.connect(self.abrir_ventana_enviar_mensaje)
-        self.btn_enviar_mensaje.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_enviar_mensaje.setObjectName(u"btn_enviar_mensaje")
         sizePolicy.setHeightForWidth(self.btn_enviar_mensaje.sizePolicy().hasHeightForWidth())
         self.btn_enviar_mensaje.setSizePolicy(sizePolicy)
+        self.btn_enviar_mensaje.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_enviar_mensaje.setStyleSheet(u"QPushButton{\n"
 "background-color: #ffffff;\n"
 "color: #2a5c94;\n"
@@ -123,6 +147,7 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         icon1 = QIcon()
         icon1.addFile(u":/iconosLaterales/mensaje.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_enviar_mensaje.setIcon(icon1)
+
         self.horizontalLayout_2.addWidget(self.btn_enviar_mensaje)
 
         self.btn_anadir = QPushButton(Dialog)
@@ -143,9 +168,9 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
-        icon1 = QIcon()
-        icon1.addFile(u":/iconosLaterales/anadir.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_anadir.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u":/iconosLaterales/anadir.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_anadir.setIcon(icon2)
 
         self.horizontalLayout_2.addWidget(self.btn_anadir)
 
@@ -167,9 +192,9 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
-        icon2 = QIcon()
-        icon2.addFile(u":/iconosLaterales/editar.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_editar.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u":/iconosLaterales/editar.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_editar.setIcon(icon3)
 
         self.horizontalLayout_2.addWidget(self.btn_editar)
 
@@ -191,9 +216,9 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 "background-color: #2a5c94;\n"
 "color: white;\n"
 "}")
-        icon3 = QIcon()
-        icon3.addFile(u":/iconosLaterales/eliminar.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_eliminar.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u":/iconosLaterales/eliminar.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_eliminar.setIcon(icon4)
 
         self.horizontalLayout_2.addWidget(self.btn_eliminar)
 
@@ -211,8 +236,8 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.verticalLayout.addWidget(self.label_sexto)
 
         self.tabla_sexto = QTableWidget(Dialog)
-        if (self.tabla_sexto.columnCount() < 5):
-            self.tabla_sexto.setColumnCount(5)
+        if (self.tabla_sexto.columnCount() < 7):
+            self.tabla_sexto.setColumnCount(7)
         __qtablewidgetitem = QTableWidgetItem()
         self.tabla_sexto.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -223,18 +248,21 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.tabla_sexto.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tabla_sexto.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tabla_sexto.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tabla_sexto.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tabla_sexto.setObjectName(u"tabla_sexto")
         self.tabla_sexto.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
         self.tabla_sexto.horizontalHeader().setDefaultSectionSize(163)
-        
+
         # Ajustar el ancho de la última columna para llenar el espacio restante
         self.tabla_sexto.horizontalHeader().setStretchLastSection(True)
         self.tabla_sexto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
-
+        
         self.verticalLayout.addWidget(self.tabla_sexto)
 
         self.label_quinto = QLabel(Dialog)
@@ -247,31 +275,35 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.verticalLayout.addWidget(self.label_quinto)
 
-        self.tabla_quinto = QTableWidget(Dialog)
-        if (self.tabla_quinto.columnCount() < 5):
-            self.tabla_quinto.setColumnCount(5)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tabla_quinto.setHorizontalHeaderItem(0, __qtablewidgetitem5)
-        __qtablewidgetitem6 = QTableWidgetItem()
-        self.tabla_quinto.setHorizontalHeaderItem(1, __qtablewidgetitem6)
+        self.tabla_sexto_2 = QTableWidget(Dialog)
+        if (self.tabla_sexto_2.columnCount() < 7):
+            self.tabla_sexto_2.setColumnCount(7)
         __qtablewidgetitem7 = QTableWidgetItem()
-        self.tabla_quinto.setHorizontalHeaderItem(2, __qtablewidgetitem7)
+        self.tabla_sexto_2.setHorizontalHeaderItem(0, __qtablewidgetitem7)
         __qtablewidgetitem8 = QTableWidgetItem()
-        self.tabla_quinto.setHorizontalHeaderItem(3, __qtablewidgetitem8)
+        self.tabla_sexto_2.setHorizontalHeaderItem(1, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
-        self.tabla_quinto.setHorizontalHeaderItem(4, __qtablewidgetitem9)
-        self.tabla_quinto.setObjectName(u"tabla_quinto")
-        self.tabla_quinto.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
+        self.tabla_sexto_2.setHorizontalHeaderItem(2, __qtablewidgetitem9)
+        __qtablewidgetitem10 = QTableWidgetItem()
+        self.tabla_sexto_2.setHorizontalHeaderItem(3, __qtablewidgetitem10)
+        __qtablewidgetitem11 = QTableWidgetItem()
+        self.tabla_sexto_2.setHorizontalHeaderItem(4, __qtablewidgetitem11)
+        __qtablewidgetitem12 = QTableWidgetItem()
+        self.tabla_sexto_2.setHorizontalHeaderItem(5, __qtablewidgetitem12)
+        __qtablewidgetitem13 = QTableWidgetItem()
+        self.tabla_sexto_2.setHorizontalHeaderItem(6, __qtablewidgetitem13)
+        self.tabla_sexto_2.setObjectName(u"tabla_sexto_2")
+        self.tabla_sexto_2.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
-        self.tabla_quinto.horizontalHeader().setDefaultSectionSize(163)
-        
-        # Ajustar el ancho de la última columna para llenar el espacio restante
-        self.tabla_quinto.horizontalHeader().setStretchLastSection(True)
-        self.tabla_quinto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tabla_sexto_2.horizontalHeader().setDefaultSectionSize(163)
 
-        self.verticalLayout.addWidget(self.tabla_quinto)
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto_2.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.verticalLayout.addWidget(self.tabla_sexto_2)
 
         self.label_cuarto = QLabel(Dialog)
         self.label_cuarto.setObjectName(u"label_cuarto")
@@ -283,31 +315,35 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.verticalLayout.addWidget(self.label_cuarto)
 
-        self.tabla_cuarto = QTableWidget(Dialog)
-        if (self.tabla_cuarto.columnCount() < 5):
-            self.tabla_cuarto.setColumnCount(5)
-        __qtablewidgetitem10 = QTableWidgetItem()
-        self.tabla_cuarto.setHorizontalHeaderItem(0, __qtablewidgetitem10)
-        __qtablewidgetitem11 = QTableWidgetItem()
-        self.tabla_cuarto.setHorizontalHeaderItem(1, __qtablewidgetitem11)
-        __qtablewidgetitem12 = QTableWidgetItem()
-        self.tabla_cuarto.setHorizontalHeaderItem(2, __qtablewidgetitem12)
-        __qtablewidgetitem13 = QTableWidgetItem()
-        self.tabla_cuarto.setHorizontalHeaderItem(3, __qtablewidgetitem13)
+        self.tabla_sexto_3 = QTableWidget(Dialog)
+        if (self.tabla_sexto_3.columnCount() < 7):
+            self.tabla_sexto_3.setColumnCount(7)
         __qtablewidgetitem14 = QTableWidgetItem()
-        self.tabla_cuarto.setHorizontalHeaderItem(4, __qtablewidgetitem14)
-        self.tabla_cuarto.setObjectName(u"tabla_cuarto")
-        self.tabla_cuarto.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
+        self.tabla_sexto_3.setHorizontalHeaderItem(0, __qtablewidgetitem14)
+        __qtablewidgetitem15 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(1, __qtablewidgetitem15)
+        __qtablewidgetitem16 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(2, __qtablewidgetitem16)
+        __qtablewidgetitem17 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(3, __qtablewidgetitem17)
+        __qtablewidgetitem18 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(4, __qtablewidgetitem18)
+        __qtablewidgetitem19 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(5, __qtablewidgetitem19)
+        __qtablewidgetitem20 = QTableWidgetItem()
+        self.tabla_sexto_3.setHorizontalHeaderItem(6, __qtablewidgetitem20)
+        self.tabla_sexto_3.setObjectName(u"tabla_sexto_3")
+        self.tabla_sexto_3.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
-        self.tabla_cuarto.horizontalHeader().setDefaultSectionSize(163)
-        
-        # Ajustar el ancho de la última columna para llenar el espacio restante
-        self.tabla_cuarto.horizontalHeader().setStretchLastSection(True)
-        self.tabla_cuarto.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tabla_sexto_3.horizontalHeader().setDefaultSectionSize(163)
 
-        self.verticalLayout.addWidget(self.tabla_cuarto)
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto_3.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto_3.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.verticalLayout.addWidget(self.tabla_sexto_3)
 
         self.label_tercero = QLabel(Dialog)
         self.label_tercero.setObjectName(u"label_tercero")
@@ -319,31 +355,35 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.verticalLayout.addWidget(self.label_tercero)
 
-        self.tabla_tercero = QTableWidget(Dialog)
-        if (self.tabla_tercero.columnCount() < 5):
-            self.tabla_tercero.setColumnCount(5)
-        __qtablewidgetitem15 = QTableWidgetItem()
-        self.tabla_tercero.setHorizontalHeaderItem(0, __qtablewidgetitem15)
-        __qtablewidgetitem16 = QTableWidgetItem()
-        self.tabla_tercero.setHorizontalHeaderItem(1, __qtablewidgetitem16)
-        __qtablewidgetitem17 = QTableWidgetItem()
-        self.tabla_tercero.setHorizontalHeaderItem(2, __qtablewidgetitem17)
-        __qtablewidgetitem18 = QTableWidgetItem()
-        self.tabla_tercero.setHorizontalHeaderItem(3, __qtablewidgetitem18)
-        __qtablewidgetitem19 = QTableWidgetItem()
-        self.tabla_tercero.setHorizontalHeaderItem(4, __qtablewidgetitem19)
-        self.tabla_tercero.setObjectName(u"tabla_tercero")
-        self.tabla_tercero.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
+        self.tabla_sexto_4 = QTableWidget(Dialog)
+        if (self.tabla_sexto_4.columnCount() < 7):
+            self.tabla_sexto_4.setColumnCount(7)
+        __qtablewidgetitem21 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(0, __qtablewidgetitem21)
+        __qtablewidgetitem22 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(1, __qtablewidgetitem22)
+        __qtablewidgetitem23 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(2, __qtablewidgetitem23)
+        __qtablewidgetitem24 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(3, __qtablewidgetitem24)
+        __qtablewidgetitem25 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(4, __qtablewidgetitem25)
+        __qtablewidgetitem26 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(5, __qtablewidgetitem26)
+        __qtablewidgetitem27 = QTableWidgetItem()
+        self.tabla_sexto_4.setHorizontalHeaderItem(6, __qtablewidgetitem27)
+        self.tabla_sexto_4.setObjectName(u"tabla_sexto_4")
+        self.tabla_sexto_4.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
-        self.tabla_tercero.horizontalHeader().setDefaultSectionSize(163)
-        
-        # Ajustar el ancho de la última columna para llenar el espacio restante
-        self.tabla_tercero.horizontalHeader().setStretchLastSection(True)
-        self.tabla_tercero.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tabla_sexto_4.horizontalHeader().setDefaultSectionSize(163)
 
-        self.verticalLayout.addWidget(self.tabla_tercero)
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto_4.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto_4.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.verticalLayout.addWidget(self.tabla_sexto_4)
 
         self.label_segundo = QLabel(Dialog)
         self.label_segundo.setObjectName(u"label_segundo")
@@ -355,31 +395,35 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.verticalLayout.addWidget(self.label_segundo)
 
-        self.tabla_segundo = QTableWidget(Dialog)
-        if (self.tabla_segundo.columnCount() < 5):
-            self.tabla_segundo.setColumnCount(5)
-        __qtablewidgetitem20 = QTableWidgetItem()
-        self.tabla_segundo.setHorizontalHeaderItem(0, __qtablewidgetitem20)
-        __qtablewidgetitem21 = QTableWidgetItem()
-        self.tabla_segundo.setHorizontalHeaderItem(1, __qtablewidgetitem21)
-        __qtablewidgetitem22 = QTableWidgetItem()
-        self.tabla_segundo.setHorizontalHeaderItem(2, __qtablewidgetitem22)
-        __qtablewidgetitem23 = QTableWidgetItem()
-        self.tabla_segundo.setHorizontalHeaderItem(3, __qtablewidgetitem23)
-        __qtablewidgetitem24 = QTableWidgetItem()
-        self.tabla_segundo.setHorizontalHeaderItem(4, __qtablewidgetitem24)
-        self.tabla_segundo.setObjectName(u"tabla_segundo")
-        self.tabla_segundo.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
+        self.tabla_sexto_5 = QTableWidget(Dialog)
+        if (self.tabla_sexto_5.columnCount() < 7):
+            self.tabla_sexto_5.setColumnCount(7)
+        __qtablewidgetitem28 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(0, __qtablewidgetitem28)
+        __qtablewidgetitem29 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(1, __qtablewidgetitem29)
+        __qtablewidgetitem30 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(2, __qtablewidgetitem30)
+        __qtablewidgetitem31 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(3, __qtablewidgetitem31)
+        __qtablewidgetitem32 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(4, __qtablewidgetitem32)
+        __qtablewidgetitem33 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(5, __qtablewidgetitem33)
+        __qtablewidgetitem34 = QTableWidgetItem()
+        self.tabla_sexto_5.setHorizontalHeaderItem(6, __qtablewidgetitem34)
+        self.tabla_sexto_5.setObjectName(u"tabla_sexto_5")
+        self.tabla_sexto_5.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
-        self.tabla_segundo.horizontalHeader().setDefaultSectionSize(163)
-        
-        # Ajustar el ancho de la última columna para llenar el espacio restante
-        self.tabla_segundo.horizontalHeader().setStretchLastSection(True)
-        self.tabla_segundo.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tabla_sexto_5.horizontalHeader().setDefaultSectionSize(163)
 
-        self.verticalLayout.addWidget(self.tabla_segundo)
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto_5.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto_5.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.verticalLayout.addWidget(self.tabla_sexto_5)
 
         self.label_primero = QLabel(Dialog)
         self.label_primero.setObjectName(u"label_primero")
@@ -391,38 +435,42 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
 
         self.verticalLayout.addWidget(self.label_primero)
 
-        self.tabla_primero = QTableWidget(Dialog)
-        if (self.tabla_primero.columnCount() < 5):
-            self.tabla_primero.setColumnCount(5)
-        __qtablewidgetitem25 = QTableWidgetItem()
-        self.tabla_primero.setHorizontalHeaderItem(0, __qtablewidgetitem25)
-        __qtablewidgetitem26 = QTableWidgetItem()
-        self.tabla_primero.setHorizontalHeaderItem(1, __qtablewidgetitem26)
-        __qtablewidgetitem27 = QTableWidgetItem()
-        self.tabla_primero.setHorizontalHeaderItem(2, __qtablewidgetitem27)
-        __qtablewidgetitem28 = QTableWidgetItem()
-        self.tabla_primero.setHorizontalHeaderItem(3, __qtablewidgetitem28)
-        __qtablewidgetitem29 = QTableWidgetItem()
-        self.tabla_primero.setHorizontalHeaderItem(4, __qtablewidgetitem29)
-        self.tabla_primero.setObjectName(u"tabla_primero")
-        self.tabla_primero.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
+        self.tabla_sexto_6 = QTableWidget(Dialog)
+        if (self.tabla_sexto_6.columnCount() < 7):
+            self.tabla_sexto_6.setColumnCount(7)
+        __qtablewidgetitem35 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(0, __qtablewidgetitem35)
+        __qtablewidgetitem36 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(1, __qtablewidgetitem36)
+        __qtablewidgetitem37 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(2, __qtablewidgetitem37)
+        __qtablewidgetitem38 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(3, __qtablewidgetitem38)
+        __qtablewidgetitem39 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(4, __qtablewidgetitem39)
+        __qtablewidgetitem40 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(5, __qtablewidgetitem40)
+        __qtablewidgetitem41 = QTableWidgetItem()
+        self.tabla_sexto_6.setHorizontalHeaderItem(6, __qtablewidgetitem41)
+        self.tabla_sexto_6.setObjectName(u"tabla_sexto_6")
+        self.tabla_sexto_6.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
 "}\n"
 "")
-        self.tabla_primero.horizontalHeader().setDefaultSectionSize(163)
-        
-        # Ajustar el ancho de la última columna para llenar el espacio restante
-        self.tabla_primero.horizontalHeader().setStretchLastSection(True)
-        self.tabla_primero.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tabla_sexto_6.horizontalHeader().setDefaultSectionSize(163)
 
-        self.verticalLayout.addWidget(self.tabla_primero)
+        # Ajustar el ancho de la última columna para llenar el espacio restante
+        self.tabla_sexto_6.horizontalHeader().setStretchLastSection(True)
+        self.tabla_sexto_6.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.verticalLayout.addWidget(self.tabla_sexto_6)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
-
-        self.tablas = [self.tabla_primero, self.tabla_segundo, self.tabla_tercero, self.tabla_cuarto, self.tabla_quinto, self.tabla_sexto]
-
+        
+        self.tablas = [self.tabla_sexto_6, self.tabla_sexto_5, self.tabla_sexto_4, self.tabla_sexto_3, self.tabla_sexto_2, self.tabla_sexto]
         self.actualiza_todos_alumnos()
+
 
         self.retranslateUi(Dialog)
 
@@ -434,78 +482,103 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.label_logo.setText("")
         self.label.setText(QCoreApplication.translate("Dialog", u"Listado de alumnos del centro:", None))
         self.btn_volver_atras.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
+        self.pushButton.setText(QCoreApplication.translate("Dialog", u"Importar alumnos", None))
         self.btn_enviar_mensaje.setText(QCoreApplication.translate("Dialog", u"Enviar mensaje", None))
         self.btn_anadir.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.btn_editar.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
         self.btn_eliminar.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno", None))
         self.label_sexto.setText(QCoreApplication.translate("Dialog", u"Curso 6\u00ba:", None))
         ___qtablewidgetitem = self.tabla_sexto.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"NRE", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
         ___qtablewidgetitem1 = self.tabla_sexto.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
         ___qtablewidgetitem2 = self.tabla_sexto.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
         ___qtablewidgetitem3 = self.tabla_sexto.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Clase", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Curso", None));
         ___qtablewidgetitem4 = self.tabla_sexto.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
-        self.label_quinto.setText(QCoreApplication.translate("Dialog", u"Curso 5\u00ba:", None))
-        ___qtablewidgetitem5 = self.tabla_quinto.horizontalHeaderItem(0)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"NRE", None));
-        ___qtablewidgetitem6 = self.tabla_quinto.horizontalHeaderItem(1)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem5 = self.tabla_sexto.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem6 = self.tabla_sexto.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem7 = self.tabla_quinto.horizontalHeaderItem(2)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("Dialog", u"Curso", None));
-        ___qtablewidgetitem8 = self.tabla_quinto.horizontalHeaderItem(3)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("Dialog", u"Clase", None));
-        ___qtablewidgetitem9 = self.tabla_quinto.horizontalHeaderItem(4)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        self.label_quinto.setText(QCoreApplication.translate("Dialog", u"Curso 5\u00ba:", None))
+        ___qtablewidgetitem7 = self.tabla_sexto_2.horizontalHeaderItem(0)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
+        ___qtablewidgetitem8 = self.tabla_sexto_2.horizontalHeaderItem(1)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
+        ___qtablewidgetitem9 = self.tabla_sexto_2.horizontalHeaderItem(2)
+        ___qtablewidgetitem9.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
+        ___qtablewidgetitem10 = self.tabla_sexto_2.horizontalHeaderItem(3)
+        ___qtablewidgetitem10.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem11 = self.tabla_sexto_2.horizontalHeaderItem(4)
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem12 = self.tabla_sexto_2.horizontalHeaderItem(5)
+        ___qtablewidgetitem12.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem13 = self.tabla_sexto_2.horizontalHeaderItem(6)
+        ___qtablewidgetitem13.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
         self.label_cuarto.setText(QCoreApplication.translate("Dialog", u"Curso 4\u00ba:", None))
-        ___qtablewidgetitem10 = self.tabla_cuarto.horizontalHeaderItem(0)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("Dialog", u"NRE", None));
-        ___qtablewidgetitem11 = self.tabla_cuarto.horizontalHeaderItem(1)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem12 = self.tabla_cuarto.horizontalHeaderItem(2)
-        ___qtablewidgetitem12.setText(QCoreApplication.translate("Dialog", u"Curso", None));
-        ___qtablewidgetitem13 = self.tabla_cuarto.horizontalHeaderItem(3)
-        ___qtablewidgetitem13.setText(QCoreApplication.translate("Dialog", u"Clase", None));
-        ___qtablewidgetitem14 = self.tabla_cuarto.horizontalHeaderItem(4)
-        ___qtablewidgetitem14.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
-        self.label_tercero.setText(QCoreApplication.translate("Dialog", u"Curso 3\u00ba:", None))
-        ___qtablewidgetitem15 = self.tabla_tercero.horizontalHeaderItem(0)
-        ___qtablewidgetitem15.setText(QCoreApplication.translate("Dialog", u"NRE", None));
-        ___qtablewidgetitem16 = self.tabla_tercero.horizontalHeaderItem(1)
-        ___qtablewidgetitem16.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem17 = self.tabla_tercero.horizontalHeaderItem(2)
+        ___qtablewidgetitem14 = self.tabla_sexto_3.horizontalHeaderItem(0)
+        ___qtablewidgetitem14.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
+        ___qtablewidgetitem15 = self.tabla_sexto_3.horizontalHeaderItem(1)
+        ___qtablewidgetitem15.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
+        ___qtablewidgetitem16 = self.tabla_sexto_3.horizontalHeaderItem(2)
+        ___qtablewidgetitem16.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
+        ___qtablewidgetitem17 = self.tabla_sexto_3.horizontalHeaderItem(3)
         ___qtablewidgetitem17.setText(QCoreApplication.translate("Dialog", u"Curso", None));
-        ___qtablewidgetitem18 = self.tabla_tercero.horizontalHeaderItem(3)
-        ___qtablewidgetitem18.setText(QCoreApplication.translate("Dialog", u"Clase", None));
-        ___qtablewidgetitem19 = self.tabla_tercero.horizontalHeaderItem(4)
-        ___qtablewidgetitem19.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem18 = self.tabla_sexto_3.horizontalHeaderItem(4)
+        ___qtablewidgetitem18.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem19 = self.tabla_sexto_3.horizontalHeaderItem(5)
+        ___qtablewidgetitem19.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem20 = self.tabla_sexto_3.horizontalHeaderItem(6)
+        ___qtablewidgetitem20.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        self.label_tercero.setText(QCoreApplication.translate("Dialog", u"Curso 3\u00ba:", None))
+        ___qtablewidgetitem21 = self.tabla_sexto_4.horizontalHeaderItem(0)
+        ___qtablewidgetitem21.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
+        ___qtablewidgetitem22 = self.tabla_sexto_4.horizontalHeaderItem(1)
+        ___qtablewidgetitem22.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
+        ___qtablewidgetitem23 = self.tabla_sexto_4.horizontalHeaderItem(2)
+        ___qtablewidgetitem23.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
+        ___qtablewidgetitem24 = self.tabla_sexto_4.horizontalHeaderItem(3)
+        ___qtablewidgetitem24.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem25 = self.tabla_sexto_4.horizontalHeaderItem(4)
+        ___qtablewidgetitem25.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem26 = self.tabla_sexto_4.horizontalHeaderItem(5)
+        ___qtablewidgetitem26.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem27 = self.tabla_sexto_4.horizontalHeaderItem(6)
+        ___qtablewidgetitem27.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
         self.label_segundo.setText(QCoreApplication.translate("Dialog", u"Curso 2\u00ba:", None))
-        ___qtablewidgetitem20 = self.tabla_segundo.horizontalHeaderItem(0)
-        ___qtablewidgetitem20.setText(QCoreApplication.translate("Dialog", u"NRE", None));
-        ___qtablewidgetitem21 = self.tabla_segundo.horizontalHeaderItem(1)
-        ___qtablewidgetitem21.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem22 = self.tabla_segundo.horizontalHeaderItem(2)
-        ___qtablewidgetitem22.setText(QCoreApplication.translate("Dialog", u"Curso", None));
-        ___qtablewidgetitem23 = self.tabla_segundo.horizontalHeaderItem(3)
-        ___qtablewidgetitem23.setText(QCoreApplication.translate("Dialog", u"Clase", None));
-        ___qtablewidgetitem24 = self.tabla_segundo.horizontalHeaderItem(4)
-        ___qtablewidgetitem24.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem28 = self.tabla_sexto_5.horizontalHeaderItem(0)
+        ___qtablewidgetitem28.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
+        ___qtablewidgetitem29 = self.tabla_sexto_5.horizontalHeaderItem(1)
+        ___qtablewidgetitem29.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
+        ___qtablewidgetitem30 = self.tabla_sexto_5.horizontalHeaderItem(2)
+        ___qtablewidgetitem30.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
+        ___qtablewidgetitem31 = self.tabla_sexto_5.horizontalHeaderItem(3)
+        ___qtablewidgetitem31.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem32 = self.tabla_sexto_5.horizontalHeaderItem(4)
+        ___qtablewidgetitem32.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem33 = self.tabla_sexto_5.horizontalHeaderItem(5)
+        ___qtablewidgetitem33.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem34 = self.tabla_sexto_5.horizontalHeaderItem(6)
+        ___qtablewidgetitem34.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
         self.label_primero.setText(QCoreApplication.translate("Dialog", u"Curso 1\u00ba:", None))
-        ___qtablewidgetitem25 = self.tabla_primero.horizontalHeaderItem(0)
-        ___qtablewidgetitem25.setText(QCoreApplication.translate("Dialog", u"NRE", None));
-        ___qtablewidgetitem26 = self.tabla_primero.horizontalHeaderItem(1)
-        ___qtablewidgetitem26.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem27 = self.tabla_primero.horizontalHeaderItem(2)
-        ___qtablewidgetitem27.setText(QCoreApplication.translate("Dialog", u"Curso", None));
-        ___qtablewidgetitem28 = self.tabla_primero.horizontalHeaderItem(3)
-        ___qtablewidgetitem28.setText(QCoreApplication.translate("Dialog", u"Clase", None));
-        ___qtablewidgetitem29 = self.tabla_primero.horizontalHeaderItem(4)
-        ___qtablewidgetitem29.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem35 = self.tabla_sexto_6.horizontalHeaderItem(0)
+        ___qtablewidgetitem35.setText(QCoreApplication.translate("Dialog", u"N\u00famero", None));
+        ___qtablewidgetitem36 = self.tabla_sexto_6.horizontalHeaderItem(1)
+        ___qtablewidgetitem36.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
+        ___qtablewidgetitem37 = self.tabla_sexto_6.horizontalHeaderItem(2)
+        ___qtablewidgetitem37.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
+        ___qtablewidgetitem38 = self.tabla_sexto_6.horizontalHeaderItem(3)
+        ___qtablewidgetitem38.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem39 = self.tabla_sexto_6.horizontalHeaderItem(4)
+        ___qtablewidgetitem39.setText(QCoreApplication.translate("Dialog", u"Ense\u00f1anza", None));
+        ___qtablewidgetitem40 = self.tabla_sexto_6.horizontalHeaderItem(5)
+        ___qtablewidgetitem40.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem41 = self.tabla_sexto_6.horizontalHeaderItem(6)
+        ___qtablewidgetitem41.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
     # retranslateUi
-    
+
     def abrir_ventana_anadir(self):
         self.ventana_anadir_alumnos = VentanaAnadirAlumno()
         self.ventana_anadir_alumnos.show()
@@ -532,6 +605,13 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         self.ventana_enviar_mensaje.show()
         self.ventana_enviar_mensaje.exec_()
         
+    def abrir_ventana_importar(self):
+        self.ventana_importar_alumnos = VentanaImportarAlumnos()
+        self.ventana_importar_alumnos.show()
+        self.ventana_importar_alumnos.exec_()
+        self.limpiar_tablas()
+        self.actualiza_todos_alumnos()
+        
     def actualiza_todos_alumnos(self):
         conector = AlumnoConnector()
         # Primero limpia todas las tablas
@@ -542,18 +622,18 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         alumnos = conector.devuelveTodos()  # Supongamos que esto retorna una lista de diccionarios con los datos de los alumnos
         
         for alumno in alumnos:
-            curso = alumno[2]
-            if curso == "1º":
-                self.anadir_fila(self.tabla_primero, alumno)
-            elif curso == "2º":
-                self.anadir_fila(self.tabla_segundo, alumno)
-            elif curso == "3º":
-                self.anadir_fila(self.tabla_tercero, alumno)
-            elif curso == "4º":
-                self.anadir_fila(self.tabla_cuarto, alumno)
-            elif curso == "5º":
-                self.anadir_fila(self.tabla_quinto, alumno)
-            elif curso == "6º":
+            curso = alumno[3]
+            if curso == "1":
+                self.anadir_fila(self.tabla_sexto_6, alumno)
+            elif curso == "2":
+                self.anadir_fila(self.tabla_sexto_5, alumno)
+            elif curso == "3":
+                self.anadir_fila(self.tabla_sexto_4, alumno)
+            elif curso == "4":
+                self.anadir_fila(self.tabla_sexto_3, alumno)
+            elif curso == "5":
+                self.anadir_fila(self.tabla_sexto_2, alumno)
+            elif curso == "6":
                 self.anadir_fila(self.tabla_sexto, alumno)
     
     def anadir_fila(self, tabla, alumno):
@@ -561,7 +641,8 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         tabla.insertRow(rowPosition)
         items = [QTableWidgetItem(str(alumno[0])), QTableWidgetItem(alumno[1]),
                  QTableWidgetItem(alumno[2]), QTableWidgetItem(alumno[3]),
-                 QTableWidgetItem(alumno[4])]
+                 QTableWidgetItem(alumno[4]), QTableWidgetItem(alumno[5]),
+                 QTableWidgetItem(alumno[6])]
         for col, item in enumerate(items):
             item.setTextAlignment(Qt.AlignCenter)
             tabla.setItem(rowPosition, col, item)
@@ -578,9 +659,9 @@ class Ui_Dialog_listadoAlumnos(QDialog, object):
         alumnos_curso = alumno_connector.devuelvePorCurso(curso_alumno)
         
         for alumno in alumnos_curso:
-                nre, nombre, curso, clase, madre = alumno
+                numero, primerApellido, segundoApellido, curso, ensenanza, grupo, nombre = alumno
                 # Agregar alumno solo si pertenece al curso
-                if alumno[2] == curso_alumno:
+                if alumno[3] == curso_alumno:
                         # Configurar el número de filas en la tabla
                         tabla.setRowCount(tabla.rowCount() + 1)
                         # Llenar la tabla con los datos del alumno
@@ -615,3 +696,8 @@ class VentanaMandarMensajeCurso(Ui_Dialog_mensaje, QDialog):
     def __init__(self):
         super(VentanaMandarMensajeCurso, self).__init__()
         self.setupUi(self, origen='listado')
+
+class VentanaImportarAlumnos(Ui_Dialog_importar, QDialog):
+    def __init__(self):
+        super(VentanaImportarAlumnos, self).__init__()
+        self.setupUi(self)
