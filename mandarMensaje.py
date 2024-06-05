@@ -48,7 +48,7 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.origen = origen
         
         # Archivo JSON de credenciales descargado desde la Consola de Desarrolladores de Google
-        self.credenciales_archivo = 'credentials.json'
+        self.credenciales_archivo = os.path.join(os.path.dirname(__file__), 'credentials.json')
 
         # Alcance de la API de Gmail
         self.alcance = ['https://www.googleapis.com/auth/gmail.send']
@@ -131,8 +131,8 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.tableWidget = QTableWidget(Dialog)
-        if (self.tableWidget.columnCount() < 6):
-            self.tableWidget.setColumnCount(6)
+        if (self.tableWidget.columnCount() < 8):
+            self.tableWidget.setColumnCount(8)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -145,6 +145,10 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.horizontalHeader().setDefaultSectionSize(163)
         
@@ -152,7 +156,7 @@ class Ui_Dialog_mensaje(QDialog, object):
         
         # Ajustar el ancho de la última columna para llenar el espacio restante
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
-        self.tableWidget.setColumnWidth(5, 2)  # Ajusta según el tamaño necesario para el checkbox
+        self.tableWidget.setColumnWidth(7, 2)  # Ajusta según el tamaño necesario para el checkbox
         
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # Permite ajustar manualmente
         self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)  # NRE
@@ -160,7 +164,9 @@ class Ui_Dialog_mensaje(QDialog, object):
         self.tableWidget.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)  # Curso
         self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)  # Clase
         self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)  # Padre/Madre
-        self.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeToContents)  # Seleccionar
+        self.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)  # Padre/Madre
+        self.tableWidget.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)  # Padre/Madre
+        self.tableWidget.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeToContents)  # Seleccionar
         
         self.tableWidget.setStyleSheet("""
 QTableView::item {
@@ -179,7 +185,7 @@ QTableView::item:nth-child(6) {
         for row in range(self.tableWidget.rowCount()):
             checkbox_item = QTableWidgetItem()
             checkbox_item.setCheckState(Qt.Unchecked)
-            self.tableWidget.setItem(row, 5, checkbox_item)  # La columna 5 es para los checkboxes
+            self.tableWidget.setItem(row, 7, checkbox_item)  # La columna 5 es para los checkboxes
 
         self.verticalLayout.addWidget(self.tableWidget)
 
@@ -237,17 +243,21 @@ QTableView::item:nth-child(6) {
         self.box_seleccion_mensaje.setToolTip(QCoreApplication.translate("Dialog", u"Seleccione el mensaje que desea enviar", None))
 #endif // QT_CONFIG(tooltip)
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"NRE", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"Número", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Clase", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Curso", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Enseñanza", None));
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"", None));
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("Dialog", u"", None));
         self.btn_enviar_mensaje.setText(QCoreApplication.translate("Dialog", u"Enviar correo/s", None))
     # retranslateUi
 
@@ -281,11 +291,11 @@ QTableView::item:nth-child(6) {
         emails = []
 
         for row in range(self.tableWidget.rowCount()):
-            checkbox_item = self.tableWidget.item(row, 5)  # La columna 5 es para los checkboxes
+            checkbox_item = self.tableWidget.item(row, 7)  # La columna 5 es para los checkboxes
 
             if checkbox_item is not None and checkbox_item.checkState() == Qt.Checked:
-                nre_alumno = self.tableWidget.item(row, 0).text()  # La columna 0 es para el NRE
-                padre = conector.devuelvePadrePorNREHijo(nre_alumno)  # Suponiendo que hay una función devuelvePadrePorNRE en AlumnoConnector
+                num_alumno = self.tableWidget.item(row, 0).text()  # La columna 0 es para el NRE
+                padre = conector.devuelvePadrePorNumeroHijo(num_alumno)  # Suponiendo que hay una función devuelvePadrePorNRE en AlumnoConnector
                 if padre:
                     padres_seleccionados.append(padre)
         
