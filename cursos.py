@@ -222,7 +222,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.btn_sexto = QPushButton(self.frame_2)
         self.btn_sexto.setObjectName(u"btn_sexto")
-        self.btn_sexto.clicked.connect(lambda: self.abrir_curso('6º'))
+        self.btn_sexto.clicked.connect(lambda: self.abrir_curso('6'))
         self.btn_sexto.setMaximumSize(QSize(1570, 16777215))
         self.btn_sexto.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_sexto.setStyleSheet(u"QPushButton{\n"
@@ -242,7 +242,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 
         self.btn_quinto = QPushButton(self.frame_2)
         self.btn_quinto.setObjectName(u"btn_quinto")
-        self.btn_quinto.clicked.connect(lambda: self.abrir_curso('5º'))
+        self.btn_quinto.clicked.connect(lambda: self.abrir_curso('5'))
         self.btn_quinto.setMaximumSize(QSize(1570, 16777215))
         self.btn_quinto.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_quinto.setStyleSheet(u"QPushButton{\n"
@@ -262,7 +262,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 
         self.btn_cuarto = QPushButton(self.frame_2)
         self.btn_cuarto.setObjectName(u"btn_cuarto")
-        self.btn_cuarto.clicked.connect(lambda: self.abrir_curso('4º'))
+        self.btn_cuarto.clicked.connect(lambda: self.abrir_curso('4'))
         self.btn_cuarto.setMaximumSize(QSize(1570, 16777215))
         self.btn_cuarto.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_cuarto.setStyleSheet(u"QPushButton{\n"
@@ -281,7 +281,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         self.verticalLayout_4.addWidget(self.btn_cuarto)
 
         self.btn_tercero = QPushButton(self.frame_2)
-        self.btn_tercero.clicked.connect(lambda: self.abrir_curso('3º'))
+        self.btn_tercero.clicked.connect(lambda: self.abrir_curso('3'))
         self.btn_tercero.setObjectName(u"btn_tercero")
         self.btn_tercero.setMaximumSize(QSize(1570, 16777215))
         self.btn_tercero.setCursor(QCursor(Qt.PointingHandCursor))
@@ -302,7 +302,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 
         self.btn_segundo = QPushButton(self.frame_2)
         self.btn_segundo.setObjectName(u"btn_segundo")
-        self.btn_segundo.clicked.connect(lambda: self.abrir_curso('2º'))
+        self.btn_segundo.clicked.connect(lambda: self.abrir_curso('2'))
         self.btn_segundo.setMaximumSize(QSize(1570, 16777215))
         self.btn_segundo.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_segundo.setStyleSheet(u"QPushButton{\n"
@@ -322,7 +322,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 
         self.btn_primero = QPushButton(self.frame_2)
         self.btn_primero.setObjectName(u"btn_primero")
-        self.btn_primero.clicked.connect(lambda: self.abrir_curso('1º'))
+        self.btn_primero.clicked.connect(lambda: self.abrir_curso('1'))
         self.btn_primero.setMaximumSize(QSize(1570, 16777215))
         self.btn_primero.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_primero.setStyleSheet(u"QPushButton{\n"
