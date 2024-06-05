@@ -238,8 +238,8 @@ class Ui_Dialog_anadir_padres(QDialog, object):
         self.logo.setText(QCoreApplication.translate("Dialog_anadir_padres", u"<html><head/><body><p><img src=\":/logo/logoProyecto.png\"/></p></body></html>", None))
         self.label_nombre.setText(QCoreApplication.translate("Dialog_anadir_padres", u"Nombre:      ", None))
         self.lineEdit_nombre.setPlaceholderText(QCoreApplication.translate("Dialog_anadir_padres", u"Introduce nombre del padre/madre...", None))
-        self.label_nre.setText(QCoreApplication.translate("Dialog_anadir_padres", u"NRE del hijo:", None))
-        self.lineEdit_nre.setPlaceholderText(QCoreApplication.translate("Dialog_anadir_padres", u"Introduce el NRE del hijo...", None))
+        self.label_nre.setText(QCoreApplication.translate("Dialog_anadir_padres", u"Nº del hijo:", None))
+        self.lineEdit_nre.setPlaceholderText(QCoreApplication.translate("Dialog_anadir_padres", u"Introduce el número del hijo...", None))
         self.label_email.setText(QCoreApplication.translate("Dialog_anadir_padres", u"Email:          ", None))
         self.lineEdit_email.setPlaceholderText(QCoreApplication.translate("Dialog_anadir_padres", u"Introduce el email del padre/madre...", None))
         self.lineEdit_direccion.setPlaceholderText(QCoreApplication.translate("Dialog_anadir_padres", u"Introduce direcci\u00f3n padre/madre...", None))
@@ -262,11 +262,6 @@ class Ui_Dialog_anadir_padres(QDialog, object):
                 
                 if '@' not in email or not (email.endswith('.com') or email.endswith('.es')):
                     QMessageBox.warning(self, 'Error', 'Correo electrónico introducido no válido.')
-                    self.reiniciar()
-                    return
-                
-                if alumno[3] != nombre:
-                    QMessageBox.warning(self, 'Error', f'El alumno tiene asociado un/a padre/madre con otro nombre: {alumno[3]}.\nSi quiere asociar a {nombre} como padre/madre al alumno con NRE: {nre} actualice la información de dicho alumno.')
                     self.reiniciar()
                     return
                 
