@@ -65,8 +65,8 @@ class Ui_Dialog_eliminaAlumnos(QDialog, object):
         self.verticalLayout.addWidget(self.label)
 
         self.tableWidget = QTableWidget(Dialog)
-        if (self.tableWidget.columnCount() < 6):
-            self.tableWidget.setColumnCount(6)
+        if (self.tableWidget.columnCount() < 8):
+            self.tableWidget.setColumnCount(8)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -79,6 +79,10 @@ class Ui_Dialog_eliminaAlumnos(QDialog, object):
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setStyleSheet(u"QTableWidget, QHeaderView::section{\n"
 "background-color: transparent;\n"
@@ -89,15 +93,17 @@ class Ui_Dialog_eliminaAlumnos(QDialog, object):
         
         # Ajustar el ancho de la última columna para llenar el espacio restante
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
-        self.tableWidget.setColumnWidth(5, 2)  # Ajusta según el tamaño necesario para el checkbox
+        self.tableWidget.setColumnWidth(7, 2)  # Ajusta según el tamaño necesario para el checkbox
         
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # Permite ajustar manualmente
         self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)  # NRE
         self.tableWidget.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)  # Nombre
         self.tableWidget.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)  # Curso
         self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)  # Clase
-        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)  # Padre/Madre
-        self.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeToContents)  # Seleccionar
+        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeToContents)  # Seleccionar
         
         self.tableWidget.setStyleSheet("""
 QTableView::item {
@@ -116,7 +122,7 @@ QTableView::item:nth-child(6) {
         for row in range(self.tableWidget.rowCount()):
             checkbox_item = QTableWidgetItem()
             checkbox_item.setCheckState(Qt.Unchecked)
-            self.tableWidget.setItem(row, 5, checkbox_item)  # La columna 5 es para los checkboxes
+            self.tableWidget.setItem(row, 7, checkbox_item)  # La columna 5 es para los checkboxes
 
         self.verticalLayout.addWidget(self.tableWidget)
 
@@ -164,17 +170,21 @@ QTableView::item:nth-child(6) {
         self.label_logo.setText("")
         self.label.setText(QCoreApplication.translate("Dialog", u"Selecciona los alumnos que desea eliminar:", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"NRE", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"Número", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Clase", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Curso", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Enseñanza", None));
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"", None));
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("Dialog", u"", None));
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno/s", None))
     # retranslateUi
 
@@ -204,14 +214,14 @@ QTableView::item:nth-child(6) {
 
     def eliminarAlumnos(self):
         try:
-            nres = self.obtener_alumnos_seleccionados()
+            numeros = self.obtener_alumnos_seleccionados()
             conector = AlumnoConnector()
-            conector.eliminar_alumnos_seleccionados(nres)
+            conector.eliminar_alumnos_seleccionados(numeros)
             
             # Eliminar filas de la tabla correspondientes a los alumnos eliminados
             for row in range(self.tableWidget.rowCount()):
-                nre_actual = self.tableWidget.item(row, 1).text()  # NRE en la columna 1
-                if nre_actual in nres:
+                num_actual = self.tableWidget.item(row, 1).text()  # NRE en la columna 1
+                if num_actual in numeros:
                     self.tableWidget.removeRow(row)
             QMessageBox.information(self, 'Éxito', 'Los alumnos han sido eliminados correctamente.')
             self.close()
@@ -222,7 +232,7 @@ QTableView::item:nth-child(6) {
     def obtener_alumnos_seleccionados(self):
         nres = []
         for row in range(self.tableWidget.rowCount()):
-            checkbox_item = self.tableWidget.item(row, 5)  # Obtener el ítem del checkbox
+            checkbox_item = self.tableWidget.item(row, 7)  # Obtener el ítem del checkbox
             if checkbox_item and checkbox_item.checkState() == Qt.Checked:
                 nre = self.tableWidget.item(row, 0).text()  # Suponiendo que la columna 1 tiene el NRE
                 nres.append(nre)
