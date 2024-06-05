@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QWidget)
 from src.resources import *
 from editar import *
+from importar import *
 from anadir import *
 from eliminaAlumnos import *
 from mandarMensaje import *
@@ -108,6 +109,27 @@ class Ui_Dialog_curso(QDialog, object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
+        self.pushButton_6 = QPushButton(Dialog)
+        self.pushButton_6.clicked.connect(self.abrir_ventana_importar)
+        self.pushButton_6.setCursor(QCursor(Qt.PointingHandCursor))
+        self.pushButton_6.setObjectName(u"pushButton_6")
+        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
+        self.pushButton_6.setSizePolicy(sizePolicy)
+        self.pushButton_6.setStyleSheet(u"QPushButton{\n"
+"background-color: #ffffff;\n"
+"color: #2a5c94;\n"
+"padding: 10px 20px;\n"
+"border: 2px solid #2a5c94;\n"
+"border-radius: 5px;\n"
+"font-size: 16px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: #2a5c94;\n"
+"color: white;\n"
+"}")
+        self.horizontalLayout_2.addWidget(self.pushButton_6)
+
+        
         self.pushButton_5 = QPushButton(Dialog)
         self.pushButton_5.clicked.connect(self.abrir_ventana_enviar_mensaje)
         self.pushButton_5.setCursor(QCursor(Qt.PointingHandCursor))
@@ -213,8 +235,8 @@ class Ui_Dialog_curso(QDialog, object):
         self.tableWidget = QTableWidget(Dialog)
         self.tableWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        if (self.tableWidget.columnCount() < 5):
-            self.tableWidget.setColumnCount(5)
+        if (self.tableWidget.columnCount() < 7):
+            self.tableWidget.setColumnCount(7)
         __qtablewidgetitem = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
@@ -225,6 +247,10 @@ class Ui_Dialog_curso(QDialog, object):
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setStyleSheet("""
 QTableView::item {
@@ -255,22 +281,27 @@ QHeaderView::section {
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", f"Datos de los alumnos de {self.curso}", None))
         self.label_logo.setText("")
-        self.label.setText(f'Alumnos de {self.curso}')
+        self.label.setText(f'Alumnos de {self.curso}º')
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Volver atr\u00e1s", None))
+        self.pushButton_6.setText(QCoreApplication.translate("Dialog", u"Importar alumnos", None))
         self.pushButton_5.setText(QCoreApplication.translate("Dialog", u"Enviar mensaje", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"A\u00f1adir alumno", None))
         self.pushButton_3.setText(QCoreApplication.translate("Dialog", u"Editar alumno", None))
         self.pushButton_4.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"NRE", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Dialog", u"Número", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog", u"Primer Apellido", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Curso", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog", u"Segundo Apellido", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Clase", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog", u"Curso", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Padre/Madre", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Dialog", u"Enseñanza", None));
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
+        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
     # retranslateUi
     
     def abrir_anadir_alumno(self):
@@ -309,6 +340,11 @@ QHeaderView::section {
                 self.tableWidget.setItem(row, col, item)
                 item.setTextAlignment(Qt.AlignCenter)
 
+    def abrir_ventana_importar(self):
+        self.ventana_importar_alumnos = VentanaImportarAlumnos()
+        self.ventana_importar_alumnos.show()
+        self.ventana_importar_alumnos.exec_()
+
 class VentanaAnadirAlumno(Ui_Dialog_anadir_alumno, QDialog):
     def __init__(self):
         super(VentanaAnadirAlumno, self).__init__()
@@ -328,3 +364,8 @@ class VentanaMandarMensajeCurso(Ui_Dialog_mensaje, QDialog):
     def __init__(self):
         super(VentanaMandarMensajeCurso, self).__init__()
         self.setupUi(self, origen='curso')
+
+class VentanaImportarAlumnos(Ui_Dialog_importar, QDialog):
+    def __init__(self):
+        super(VentanaImportarAlumnos, self).__init__()
+        self.setupUi(self)
