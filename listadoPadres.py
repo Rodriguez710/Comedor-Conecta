@@ -230,7 +230,7 @@ QHeaderView::section {
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("Dialog_listadp_padres", u"Nombre", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog_listadp_padres", u"NRE-Hijo", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Dialog_listadp_padres", u"Nº Hijo", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("Dialog_listadp_padres", u"Email", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
