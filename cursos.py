@@ -93,6 +93,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
         font1 = QFont()
         font1.setPointSize(12)
         self.btn_chat.setFont(font1)
+        self.btn_chat.setHidden(True)
         self.btn_chat.setCursor(QCursor(Qt.PointingHandCursor))
         self.btn_chat.setStyleSheet(u"QPushButton{\n"
 "border: none;\n"
@@ -103,7 +104,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(60, 79, 255);\n"
+"background-color: rgb(25, 22, 109);\n"
 "text-decoration: underline;\n"
 "}")
         icon1 = QIcon()
@@ -127,7 +128,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(60, 79, 255);\n"
+"background-color: rgb(25, 22, 109);\n"
 "text-decoration: underline;\n"
 "}")
         icon2 = QIcon()
@@ -151,7 +152,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(60, 79, 255);\n"
+"background-color: rgb(25, 22, 109);\n"
 "text-decoration: underline;}")
         icon3 = QIcon()
         icon3.addFile(u":/iconosLaterales/padres.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -174,7 +175,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(60, 79, 255);\n"
+"background-color: rgb(25, 22, 109);\n"
 "text-decoration: underline;}")
         icon4 = QIcon()
         icon4.addFile(u":/iconosLaterales/ajustes.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -201,7 +202,7 @@ class Ui_MainWindow_cursos(QMainWindow, QDialog, object):
 "font-weight: bold;\n"
 "}\n"
 "QPushButton:hover{\n"
-"background-color: rgb(60, 79, 255);\n"
+"background-color: rgb(25, 22, 109);\n"
 "text-decoration: underline;\n"
 "}")
         icon5 = QIcon()
