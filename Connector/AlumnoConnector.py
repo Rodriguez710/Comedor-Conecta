@@ -26,7 +26,7 @@ class AlumnoConnector():
             print(f"Error al obtener alumnos: {str(e)}")
             return []
     
-    def devuelvePorNRE(self, numero):
+    def devuelvePorNumero(self, numero):
         try:
             sql = "SELECT numero, primerApellido, segundoApellido, curso, ensenanza, grupo, nombre FROM alumno where numero = %s".format(numero)
             self.cursor.execute(sql, (numero))
