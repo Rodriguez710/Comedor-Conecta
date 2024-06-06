@@ -183,7 +183,7 @@ QTableView::item:nth-child(6) {
         ___qtablewidgetitem5.setText(QCoreApplication.translate("Dialog", u"Grupo", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("Dialog", u"Nombre", None));
-        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
         ___qtablewidgetitem7.setText(QCoreApplication.translate("Dialog", u"", None));
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Eliminar alumno/s", None))
     # retranslateUi
