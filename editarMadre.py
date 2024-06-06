@@ -254,7 +254,7 @@ class Ui_Dialog_editar_padres(QDialog, object):
         self.label_id.setText(QCoreApplication.translate("Dialog_editar_padres", u"ID padre:      ", None))
         self.label_nombre.setText(QCoreApplication.translate("Dialog_editar_padres", u"Nombre:      ", None))
         self.lineEdit_nombre.setPlaceholderText(QCoreApplication.translate("Dialog_editar_padres", u"Introduce nombre del padre/madre...", None))
-        self.label_nre.setText(QCoreApplication.translate("Dialog_editar_padres", u"Nº del hijo:", None))
+        self.label_nre.setText(QCoreApplication.translate("Dialog_editar_padres", u"Nº del hijo:    ", None))
         self.lineEdit_nre.setPlaceholderText(QCoreApplication.translate("Dialog_editar_padres", u"Introduce el número del hijo...", None))
         self.label_email.setText(QCoreApplication.translate("Dialog_editar_padres", u"Email:          ", None))
         self.lineEdit_email.setPlaceholderText(QCoreApplication.translate("Dialog_editar_padres", u"Introduce el email del padre/madre...", None))
