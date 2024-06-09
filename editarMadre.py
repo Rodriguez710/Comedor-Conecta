@@ -280,20 +280,6 @@ class Ui_Dialog_editar_padres(QDialog, object):
             if alumno is None:
                 QMessageBox.warning(self, 'Error', 'Alumno no registrado en la base de datos')
                 return
-            
-            if alumno[3] != nombre:
-                reply = QMessageBox.warning(self, 'Error', f'El alumno tiene asociado un/a padre/madre con otro nombre.\nSi quiere asociar a {nombre} como padre/madre al alumno con NRE: {nre_hijo} actualice la información de dicho alumno.\n\n¿Desea modificar la información de dicho alumno?', QMessageBox.Yes | QMessageBox.No)
-                
-                if reply == QMessageBox.Yes:
-                    self.abrir_editar_alumno(nre_hijo)
-               
-                self.reiniciar()
-                return
-            
-
-            if len(nre_hijo) < 7:
-                QMessageBox.critical(self, 'Error', 'NRE no válido. Asegúrese de que tiene 7 caracteres.')
-                self.reiniciar()
             else: 
                 conector.actualizarMadre(nombre, nre_hijo, email, direccion, id_padre)
                 QMessageBox.information(self.btn_anadir, 'Éxito', 'Padre/Madre actualizado/a con éxito.')
