@@ -275,7 +275,7 @@ class Ui_Dialog_editar_padres(QDialog, object):
         
         try:
             conector_alumno = AlumnoConnector()
-            alumno = conector_alumno.devuelvePorNRE(nre_hijo)
+            alumno = conector_alumno.devuelvePorNumero(nre_hijo)
             
             if alumno is None:
                 QMessageBox.warning(self, 'Error', 'Alumno no registrado en la base de datos')
